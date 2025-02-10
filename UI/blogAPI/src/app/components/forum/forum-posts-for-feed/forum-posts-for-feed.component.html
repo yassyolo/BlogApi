@@ -1,0 +1,30 @@
+<div class="forum-posts-container d-flex flex-column">
+    <div *ngIf="postsObservable | async as posts">
+        <div *ngFor="let post of posts" class="forum-post">
+            <div class="d-flex flex-row community-date">
+                <div class="community-image">
+                    <img [src]="post.communityImageUri.trim() !== ''? post.communityImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
+                </div>
+                <p class="name">c/{{ post.communityName }}</p>
+                <p style="margin-left: 40px;">{{ post.date  | date}}</p>
+                <button class="delete" (click)="deletePost(post.id)"><i class="fa-solid fa-trash"></i></button>
+            </div>
+            <div class="d-flex justify-content-between flex-column post-content">
+                <h5>{{ post.title }}</h5>
+                <div class="post-image">
+                    <img *ngIf="post.imageUri" [src]="post.imageUri.trim() !== ''? post.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
+                </div>
+                <p>{{ post.content }}</p>
+            </div>
+            <div class="d-flex flex-row buttons gap-4">
+                <div class="d-flex flex-row votes">
+                    <button style="margin-right:5px;"(click)="upVote(post.id)"><i class="fa-solid fa-thumbs-up"></i></button>
+                    {{post.votes}}
+                    <button style="margin-left:5px;" (click)="downVote(post.id)"><i class="fa-solid fa-thumbs-down"></i></button>
+                </div>
+                <a [routerLink]="['/forum', post.id]" ><i style="color: white;"class="fa-solid fa-comment"></i> {{post.commentsCount}}</a>
+            </div>
+
+        </div>
+    </div>
+</div>

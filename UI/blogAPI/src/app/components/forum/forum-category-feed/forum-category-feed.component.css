@@ -1,0 +1,21 @@
+.feed-container{
+    margin-top: 20px;
+    display: flex;
+    width: 1400px;
+}
+.last-visited-categories{
+    margin-left: 50px;
+    gap: 30px;
+    margin-right: 20px;
+}
+app-most-popular-communities{
+    margin-right: 100px;
+    margin-left: 20px;
+}
+
+app-sorting{
+    margin-top: 10px;
+    padding: 5px;
+}
+
+

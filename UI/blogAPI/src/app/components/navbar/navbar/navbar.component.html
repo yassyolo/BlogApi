@@ -1,0 +1,183 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']">Blog</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      
+      <ul class="navbar-nav">
+          <div class="nav-items">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" [routerLink]="['/home']">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            My blogs
+          </a>
+          <ul class="dropdown-menu blogs">
+              <div class="icon-item">
+                  <i class="fa-solid fa-pen-to-square"></i> 
+                  <div class="icon-item-text">
+                      <li><a class="dropdown-item" [routerLink]="['/write']">Write a blog</a></li>
+                      <p>Share your thoughts and creativity</p> 
+                  </div>                   
+              </div>
+              <div class="icon-item">
+                  <i class="fa-solid fa-blog"></i> 
+                  <div class="icon-item-text">
+                      <li><a class="dropdown-item" [routerLink]="['/blogs', 8]">Your blogs</a></li>
+                      <p>Manage and edit your posts</p> 
+                  </div>                   
+              </div>
+              <div class="icon-item">
+                  <i class="fa-solid fa-chart-line"></i> 
+                  <div class="icon-item-text">
+                      <li><a class="dropdown-item" [routerLink]="['/myBlogs/analytics']">Analytics</a></li>
+                      <p>Track the performance of your content</p> 
+                  </div>
+              </div>
+              <div class="icon-item">
+                  <i class="fa-solid fa-trophy"></i> 
+                  <div class="icon-item-text">
+                      <li><a class="dropdown-item" [routerLink]="['/myBlogs/achievements']">Achievements</a></li>
+                      <p>Earn rewards for your efforts</p> 
+                  </div>
+              </div>                
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Rankings
+          </a>
+          <ul class="dropdown-menu rankings">
+            <div class="icon-item">
+              <i class="fa-solid fa-users"></i> 
+              <div class="icon-item-text">
+                <li><a class="dropdown-item" [routerLink]="['/achievements/top-ranking-users']">Top users</a></li>
+                <p>Explore top active users in the platform</p> 
+              </div>                   
+          </div>
+          <div class="icon-item">
+            <i class="fa-solid fa-blog"></i> 
+            <div class="icon-item-text">
+              <li><a class="dropdown-item" [routerLink]="['/achievements/top-ranking-blogs']">Most popular blogs</a></li>
+              <p>Check out the trending blogs</p> 
+            </div>                   
+        </div>
+        <div class="icon-item">
+          <i class="fa-solid fa-users"></i> 
+          <div class="icon-item-text">
+            <li><a class="dropdown-item" [routerLink]="['/achievements']">My achievements</a></li>
+            <p>My achievements</p> 
+          </div>                   
+      </div>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Community
+          </a>
+          <ul class="dropdown-menu community">
+            <div class="icon-item">
+              <i class="fa-solid fa-comments"></i> 
+              <div class="icon-item-text">
+                <li><a class="dropdown-item" [routerLink]="['/community/survey']">Surveys</a></li>
+                <p>Participate in community feedback</p> 
+              </div>                   
+          </div>
+          <div class="icon-item">
+            <i class="fa-solid fa-comments"></i> 
+            <div class="icon-item-text">
+              <li><a class="dropdown-item" [routerLink]="['/forum/feed']">Forum</a></li>
+              <p>Join discussions and share ideas</p> 
+            </div>                   
+        </div>
+          </ul>
+        </li>
+          </div>
+          <div class="d-flex justify-content-between bookmarks-profile">
+          <li class="nav-item bookmarks">
+            <a [routerLink]="['bookmarks']" class="nav-link active"><i class="fa-solid fa-bookmark" style="color: #FF4561;"></i></a>
+          </li>
+        <li class="nav-item profile">
+          <a class="nav-link active" [routerLink]="['/auth/information']"  aria-current="page">
+              <i class="fa-solid fa-user" style="color:#FF4561;"></i> Login
+          </a>         
+        </li>
+      </div>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<!--
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="#">Blog</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item dropdown">
+          <ng-container
+            *ngIf="user !== null && user?.roles?.includes('Writer')"
+          >
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Admin
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/categories']"
+                  >Categories</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a class="dropdown-item" [routerLink]="['/admin/blog-posts']"
+                  >Blog Posts</a
+                >
+              </li>
+            </ul>
+          </ng-container>
+
+          <div class="d-flex">
+            <ng-container *ngIf="user === undefined; else showLogout">
+              <a [routerLink]="['/login']" class="btn btn-primary">Login</a>
+            </ng-container>
+
+            <ng-template #showLogout>
+              <div class="d-flex align-items-center">
+                <span>{{ user?.email }}</span>
+                <button class="btn btn-primary ms-3" (click)="onLogout()">
+                  Logout
+                </button>
+              </div>
+            </ng-template>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+-->

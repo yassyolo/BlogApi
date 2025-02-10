@@ -1,0 +1,28 @@
+<div class="register-container">
+    <div class="content-wrapper">
+        
+<div class="content">
+    <div class="content__container">
+      <p class="content__container__text">
+        Hello 
+      </p>
+      
+      <ul class="content__container__list">
+        <li class="content__container__list__item"> world !</li>
+        <li class="content__container__list__item"> bob !</li>
+        <li class="content__container__list__item"> users !</li>
+        <li class="content__container__list__item"> everybody !</li>
+      </ul>
+    </div>
+  </div>
+        <div class="content-text">
+            <h3>Sign up to create, read, update and delete blogs.</h3>
+            <p>Used by 10 users worldwide </p>
+            <button class="btn btn-primary sign-up" [routerLink]="['/register']">Sign up now!</button>
+        </div>
+    </div> 
+    <app-login *ngIf="isLogin()"></app-login>
+    <app-register *ngIf="!isLogin()"></app-register>   
+</div>
+
+  

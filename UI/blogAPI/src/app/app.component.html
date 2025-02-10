@@ -1,0 +1,7 @@
+<div class="page-container">
+    <app-navbar *ngIf="!isLoginOrRegisterPage"></app-navbar>
+    <div class="main-content">
+        <router-outlet></router-outlet>
+    </div>
+    <app-footer class="footer" *ngIf="!isLoginOrRegisterPage"></app-footer>
+</div>

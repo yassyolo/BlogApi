@@ -1,0 +1,166 @@
+.bookmarks-folder-select-list-container {
+    width: 100%;
+    max-width: 830px;
+    height: 300px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0px; 
+    left: 47%; 
+    transform: translateX(-50%); 
+    z-index: 1050;
+    display: block;
+    opacity: 1;   
+    transition: opacity 0.3s ease-in-out;
+}
+.all-folders{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+
+.bookmarks-folder-select-list-container h3 {
+    margin-bottom: 5px;
+    color: #FF4561;
+    font-size: 20px;
+}
+.bookmarks-folder-select-list-container p {
+    margin-bottom: 16px;
+    color: #7c7c7c;
+    font-size: 14px;
+}
+
+.new-folder-button {
+    display: flex;
+    align-items: center;
+    width: 160px;
+    height: 170px;
+    justify-content: center;
+    gap: 8px;
+    background-color: transparent;
+    color: #7c7c7c;
+    border: 1px solid #7c7c7c;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.7s ease;
+}
+
+.new-folder-button:hover {
+    background-color: transparent;
+    border-color: #FF4561;
+    color: #FF4561;
+    transform: translateY(-5px);
+
+}
+
+.new-folder-input-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.new-folder-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.new-folder-create-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.new-folder-create-button:hover {
+    background-color: #218838;
+}
+
+.bookmark-folder-select-list-item-image{
+    width: 100%;
+    height: 80%;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    border: 1px solid #7c7c7c;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+}
+.bookmark-folder-select-list-item {
+    display: flex;
+    flex-direction: column;
+    width: 160px;
+    height: 170px;
+    gap: 10px;
+    padding: 0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.7s ease;
+    overflow: hidden;
+}
+
+.bookmark-folder-select-list-item:hover {
+    transform: translateY(-5px);
+}
+
+.bookmark-folder-select-list-item:hover span {
+    color: #FF4561;
+    border-radius: 6px;
+    padding: 5px 8px;
+    transition: background 0.3s ease;
+}
+
+.bookmark-folder-select-list-item img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.bookmark-folder-select-list-item:hover img {
+    transform: scale(1.05);
+}
+
+.bookmark-folder-select-list-item span {
+    font-size: 14px;
+    font-weight: bold;
+    color: #7c7c7c;
+    text-align: center;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: color 0.3s ease;
+}
+
+/* Buttons */
+.bookmarks-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+button {
+    background-color: #ff4561;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #d92e4e;
+    transform: scale(1.05);
+}

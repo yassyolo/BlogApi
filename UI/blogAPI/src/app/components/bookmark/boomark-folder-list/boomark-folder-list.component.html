@@ -1,0 +1,34 @@
+<div class="bookmarks-list">
+<div class="d-flex">
+        <div class="title-subtitle" style="flex-direction: column;"> <h2 class="section-title">Your Bookmark Folders <i style="color:#FF4561; margin-left: 10px;"class="fa-solid fa-folder"></i></h2>
+        <p class="section-subtitle">Organize your favorite blogs and authors into folders.</p></div>
+       
+    <div class="d-flex justify-content-between search-sort-container">
+        <app-search (searchQueryChanged)="onSearchQueryChanged($event)"></app-search>
+        <app-sorting (sortingChanged)="onSortingChanged($event)"></app-sorting>
+    </div>
+    
+</div>
+
+
+    <div class="bookmark-folder-list-container" *ngIf="bookmarkFolderList$ | async as folders; else noFolders">
+        <div *ngFor="let folder of folders" class="bookmark-folder-list-item" (click)="onFolderSelect(folder.id)">
+                <img [src]="folder.imageUrl" alt="Folder image" class="bookmark-folder-image">
+                <h5>{{ folder.name }}</h5>
+                <div class="d-flex justify-content-between">
+                <span>{{ folder.bookmarkCount }} saved</span>
+                <span>{{ folder.creationDate| date}}</span>
+            </div>
+
+                <button class="delete-folder" (click)="onFolderDelete(folder.id)"><i class="fa-solid fa-trash"></i></button>
+              
+        </div>
+    </div>
+
+    <ng-template #noFolders>
+        <div class="no-folders">
+            <i class="fa-solid fa-folder"></i>
+            <span>No folders found</span>
+        </div>
+    </ng-template>
+</div>

@@ -1,0 +1,141 @@
+.communities-for-feed-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+  }
+  
+  .carousel {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    min-width: 1080px;
+  }
+  
+  .carousel-track {
+    display: flex;
+    width: 100%;
+    gap: 15px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .community {
+    flex: 1 0 30%;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .post-image{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    position: relative;
+  }
+  
+  .post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .community-name-image {
+    position: absolute;
+    top: 100px;
+    display: flex;
+  }
+.title-content{
+    margin-left: 10px;
+    color: black;
+    font-size: 20px;
+    z-index: 100;
+    position: absolute;
+    min-width: 300px;
+    text-align: left;
+    margin-top: 40px;
+}
+
+.title-content p{
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 25px;
+    width: 100%;
+    z-index: 100;
+    position: absolute;
+}
+
+  .community-name-image img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+  .post-community{
+    position: absolute;
+    top: 110px;
+    margin-left: 10px;
+    width: 100%;
+  }
+  
+  .community-image img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  a{
+    color: #626161cf;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 13px;
+  }
+  
+  .carousel-btn {
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    background-color: #ff456195;
+    color: white;
+    border: none;
+    padding: 2px 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 10;
+  }
+  
+  .carousel-btn.left {
+    left: 10px;
+  }
+  
+  .carousel-btn.right {
+    right: 10px;
+  }
+  
+  .carousel-btn:disabled {
+    background-color: rgba(0, 0, 0, 0.2);
+    cursor: not-allowed;
+  }
+
+  
+.community-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+}
+
+.community-image img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+  

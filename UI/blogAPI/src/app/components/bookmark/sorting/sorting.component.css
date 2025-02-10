@@ -1,0 +1,43 @@
+.sorting-container {
+    display: flex;
+    align-items: center;
+    border-radius: 35px;
+}
+
+.sorting-container h4 {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 600;
+    margin: 0;
+    gap: 8px;
+}
+
+.sorting-container h4 i {
+    font-size: 18px;
+    color: #FF4561;
+}
+
+.sorting-select {
+    padding: 8px 12px;
+    font-size: 14px;
+    background-color: rgb(24, 49, 83, 0.8); 
+    width: 200px;
+    height: 50px;
+    outline: none;   
+    border-radius: 35px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #f0f0f0;
+}
+
+
+.sorting-select:hover {
+    border-color: #FF4561;
+}
+.sorting-select:focus {
+    outline: none;
+    border-color: #FF4561;
+    box-shadow: 0 0 5px rgba(255, 69, 97, 0.3);
+}

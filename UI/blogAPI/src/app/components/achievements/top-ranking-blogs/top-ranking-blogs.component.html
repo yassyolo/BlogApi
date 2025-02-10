@@ -1,0 +1,51 @@
+<div class="topRanking-blogs">
+    <div class="introduction-container">
+      <h5>Welcome!</h5>
+      <p>Explore the most popular and highly-rated blogs in our community. These blogs have captivated readers with their insightful content and engaging storytelling. Dive in and discover the best of the best, and be inspired by the top contributors who have made a significant impact through their writing.</p>
+    </div>
+  
+    <div class="d-flex top-container">
+        <h3>Leaderboard <i class="fa-solid fa-trophy"></i></h3>
+
+      <div class="d-flex justify-content-between top3">
+      
+      <div *ngFor="let blog of top3RankingBlogs" class="top3-blog">
+        <div class="top3-blog-image">
+          <img [src]="blog.imageUri" alt="user image">
+        </div>
+        <a [routerLink]="['/blogs', blog.id]">{{ blog.title }}</a>
+        <div class="d-flex">
+            <p>{{ blog.readingsCount }} <i class="fa-solid fa-eye"></i> </p>
+            <p>{{ blog.commentsCount }} <i class="fa-solid fa-comment"></i> </p>
+            <p>{{ blog.bookmarksCount }} <i class="fa-solid fa-bookmark"></i></p>
+          </div>
+      </div>
+    </div>
+
+        <div *ngIf="topRankingBlogs$ | async as blogs" class="top-blogs-container">
+        <div *ngFor="let blog of blogs; let idx = index" class="top-blog-row">
+          <div class="top-blog-rank">{{ idx + 1 }}</div>
+          <div class="d-flex justify-content-between image-name">
+          <div class="top-blog-image">
+            <img [src]="blog.imageUri" alt="blog image">
+          </div>
+          <div class="d-flex title-info" style="flex-direction: column; width: 60%;">
+            <a [routerLink]="['/blogs', blog.id]">{{ blog.title }}</a>
+            <div class="d-flex justify-content-between date-category">           
+                 <p>{{ blog.date | date }}</p>
+                <p>{{ blog.categoryName }}</p>
+            </div>
+
+          </div>
+        </div>
+          
+          <div class="d-flex">
+            <p>{{ blog.readingsCount }} <i class="fa-solid fa-eye"></i> </p>
+            <p>{{ blog.commentsCount }} <i class="fa-solid fa-comment"></i> </p>
+            <p>{{ blog.bookmarksCount }} <i class="fa-solid fa-bookmark"></i></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,11 @@
+<div class="ranking-container">
+    <div class="header-text">
+      <h5><i class="fa-solid fa-star"></i> My ranking</h5>
+      <div *ngIf="myRanking$ | async as ranking">
+        <p class="points">{{ranking.myPoints}}</p>
+        <p class="ranking">Current ranking: {{ ranking.myRank }} / {{ranking.totalUsers}}</p>
+        
+      </div>
+    </div>
+  </div>
+  

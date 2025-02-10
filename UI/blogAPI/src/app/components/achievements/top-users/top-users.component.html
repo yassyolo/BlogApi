@@ -1,0 +1,36 @@
+<div class="top-users">
+        <div class="introduction-container">
+            <h5>Welcome!</h5>
+            <p>Discover the top contributors in our community. These users have made significant contributions through their insightful blogs and active participation. Join us in celebrating their achievements!</p>
+        </div>
+
+
+<div class="d-flex top-container">
+    <h3>Leaderboard <i class="fa-solid fa-trophy"></i></h3>
+    <div class="d-flex justify-content-between top3">
+        <div *ngFor="let user of top3Users" class="top3-user">
+            <div class="top3-user-image">
+                <img [src]="user?.imageUri?.trim() !== '' ? user?.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="author image">
+            </div>
+                <a [routerLink]="['/users', user.id]">{{ user.userName }}</a>
+                <p>{{ user.points }}</p>
+        </div>
+    </div>
+    <ng-container *ngIf="topUsers$ | async as users">
+        <div class="top-users-container">
+          <div *ngFor="let user of users; let idx = index" class="top-user-row">
+            <div class="d-flex justify-content-between image-name">
+            <div class="top-user-rank">{{ idx + 1 }}</div>
+            <div class="top-user-image">
+              <img [src]="user?.imageUri?.trim() !== '' ? user?.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="author image">
+            </div>
+            <a [routerLink]="['/users', user.id]">{{ user.userName }}</a>
+        </div>
+            <p>{{ user.points }} </p>
+          </div>
+        </div>
+      </ng-container>
+       
+</div>
+<app-my-ranking></app-my-ranking>
+</div>

@@ -1,0 +1,25 @@
+
+<div class="top-blogs-container">
+  <div class="header-text">   
+    <h5><i class="fa-solid fa-star"></i>Top blogs</h5>
+    <div class="top-blogs">
+    <div *ngIf="topBlogs$ | async as topBlogs">
+
+        <div *ngFor="let blog of topBlogs">
+            <div class="top-blog">
+                <div class="top-blog-image">
+                    <img [src]="blog.imageUri" alt="blog image">
+                </div>
+                <div class="top-blog-content">
+                    <a [routerLink]="['/blogs', blog.slug]">{{ blog.title }}</a>
+                    <p>{{ blog.date }}</p>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div *ngIf="!(topBlogs$ | async)">
+        <p>This author has no blogs posted</p>
+    </div>
+    </div>
+  </div>
+</div>

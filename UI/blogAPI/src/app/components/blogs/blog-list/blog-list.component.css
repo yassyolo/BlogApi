@@ -1,0 +1,145 @@
+.blog-list-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+    color: white;
+}
+
+.blog-item-wrapper{
+    background: none;
+    border-radius: 25px;
+    animation: background 1s ease-in-out;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    width: 900px;
+    height: 300px;
+    border-radius: 25px; 
+    display: flex; 
+}
+.blog-item-wrapper:hover{
+    background: linear-gradient(90deg, #FF4562, white);
+}
+.blog-item{
+    width: 896px;
+    height: 296px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 25px;
+    background-color: #18182F;
+    animation: background 1s ease-in-out, transform 1s ease-in-out;
+    transition: all 3s ease-in-out;
+}
+
+
+.blog-image{
+    width: 700px;
+    height: 230px;
+    border-radius: 25px;
+    object-fit: cover;
+    margin-right: 30px;
+    margin-left: 10px;
+}
+
+.blog-content{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 70%;
+}
+
+.blog-content p{
+    color: #E0E0E0BF;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.blog-content h5{
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
+.learn-more {
+    display: none;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    bottom: -30px;
+    left: -13px;
+    z-index: 2;
+    transform: all 0.3s ease-in-out;
+  }
+
+  .blog-item:hover .learn-more{
+    display: block;
+  }
+
+  .blog-item:hover p, .blog-item:hover h5{
+    transform: translateY(-20px);
+  }
+
+
+ i{
+    font-size: 20px;
+    color: #FF4561;
+    margin-left: 7px;
+ }
+
+
+  .pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    list-style: none;
+    background-color:transparent !important;
+    padding: 0px;
+
+  }
+
+.page-item{
+margin: 0 5px;
+}
+
+  .page-link{
+    color: #FF4561 !important;
+    background-color: #151533 !important;
+    border: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  a.page-link{
+    border:1px solid #FF4561 !important;
+    padding: 0;
+
+  }
+
+  .page-link button{
+    background-color: transparent !important;
+    border: none;
+    color: white;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .fa-arrow-right, .fa-arrow-left{
+    color: #FF4561;
+    font-size: 20px;
+    margin:0;
+  }

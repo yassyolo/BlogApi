@@ -1,0 +1,81 @@
+
+    <div class="form-and-guideline">
+        <div class="guideline-container">
+            <div class="header-text">
+            <h5><i class="fa-solid fa-star"></i>Writing Guidelines</h5>
+            <p style="margin-top: 15px;">When writing your blog post:</p>
+            <ul class="guidelines-list">
+                <li>Keep the title short and descriptive.</li>
+                <li>Write clear, engaging content with proper formatting.</li>
+                <li>Use relevant images to support your post.</li>
+                <li>Add appropriate tags to make your content discoverable.</li>
+                <li>Review your post for spelling and grammar before publishing.</li>
+            </ul>
+        </div>
+        </div>
+        <div class="blog-write-container">
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" class="form-control" [(ngModel)]="blogRequest.title" name="title" placeholder="Enter title" required minlength="3" maxlength="100">
+                </div>
+        
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select [(ngModel)]="blogRequest.categoryId" name="categoryId" class="form-control" required placeholder="Please select">
+                        <option *ngFor="let category of categories$ | async" [value]="category.id">{{ category.name }}</option>
+                    </select>
+                </div>
+        
+                <div class="form-group">
+                    <label for="images">Images</label>
+                    <input type="file" id="images" (change)="onImageChange($event)" class="form-control" multiple>
+                    <div *ngIf="imagePreviews.length">
+                        <h5>Image Previews:</h5>
+                        <div class="image-previews">
+                            <img *ngFor="let image of imagePreviews" [src]="image" alt="Blog Image Preview" class="image-preview" />
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <label for="content">Content</label>
+                    <quill-editor [(ngModel)]="blogRequest.content" name="content" [modules]="editorModules" theme="snow" class="form-control"></quill-editor>
+                </div>
+        
+                <div class="form-group tags">
+                    <label for="tags">Tags</label>
+                    <p>Select from existing tags or start typing new ones..</p>
+                    <div class="tags-row">
+                    <div *ngIf="tags$ | async as tags">
+                      <select id="tags" class="form-control" (change)="onTagSelect($event)">
+                        <option *ngFor="let tag of tags" [value]="tag.id">{{ tag.name }}</option>
+                      </select>
+                    </div>
+                  
+                    <input type="text" id="new-tags" class="form-control" [(ngModel)]="newTagsInput" 
+                      name="newTagsInput" placeholder="Enter new tags (comma separated)"
+                     (keyup.enter)="onAddNewTags()">
+        
+                    </div>
+        
+                    <p>Selected tags:</p> 
+                    <div class="selected-tags">
+                        <span *ngFor="let tag of selectedTags" class="selected-tag">#{{ tag.name }}
+                            <button (click)="onRemoveSelectedTag(tag.id)" class="remove-tag"><i class="fa-regular fa-x"></i></button>
+                        </span>
+                    </div>
+                    <p>New tags:</p>
+                    <div class="new-tags">
+                        <span *ngFor="let tag of newTags" class="new-tag">#{{ tag }}
+                            <button (click)="onRemoveNewTag(tag)" class="remove-tag"><i class="fa-regular fa-x"></i></button>
+                        </span>
+                    </div>
+                </div>
+        <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Post blog</button>
+                <button (click)="showPreview()" class="btn btn-primary">Preview</button></div>
+
+            </form>
+    </div>
+</div>

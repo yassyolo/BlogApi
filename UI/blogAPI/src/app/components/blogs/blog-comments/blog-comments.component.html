@@ -1,0 +1,38 @@
+<div class="comments-container">
+  
+    <form (submit)="submitComment($event)">
+      <textarea [(ngModel)]="newComment" name="newComment"
+      placeholder="Write a comment..." rows="2" required></textarea>
+      <button type="submit">Submit</button>
+      <span class="line"></span>
+
+    </form>
+    <div class="d-flex comments-count"><h3>Comments</h3>
+        <span *ngIf="comments" class="cnt">{{comments.length}}</span></div>
+    
+
+      <div *ngIf="comments; else loading">
+      <div *ngIf="comments.length > 0; else noComments">
+        <div *ngFor="let comment of comments" class="comment">
+            <div class="d-flex author-date">
+                <img [src]="comment.authorImageUri.trim() !== '' ? comment.authorImageUri :  'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Author Image" class="author-image" />
+                <p class="comment-author" >{{ comment.authorName }} </p>
+                <p class="date">{{ comment.date | date:'short' }}</p>
+            </div>
+          <p class="comment-content">{{ comment.content }}</p>
+            <button (click)="likeComment(comment.id)" class="likes">
+                <i class="fa-regular fa-heart"></i> {{ comment.likes }}
+          </button>
+        </div>
+      </div>
+  
+      <ng-template #noComments>
+        <p>No comments yet. Be the first to comment!</p>
+      </ng-template>
+    </div>
+  
+    <ng-template #loading>
+      <p>Loading comments...</p>
+    </ng-template>
+  </div>
+  

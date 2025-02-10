@@ -1,0 +1,26 @@
+<div class="form-wrapper">
+    <h4>Blog</h4>
+    <p>Sign in the platform</p>
+    <form [formGroup]="loginForm!" (ngSubmit)="onSubmit()">
+        <div class="form-group">    
+            <label for="email">Email</label>
+            <input id="email" type="email" class="form-control" formControlName="email" />
+            <div *ngIf="loginForm?.get('email')?.invalid && loginForm?.get('email')?.touched" class="text-danger">
+                Please enter a valid email address.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" class="form-control" formControlName="password" />
+            <div *ngIf="loginForm?.get('password')?.invalid && loginForm?.get('password')?.touched" class="text-danger">
+                Password is required.
+            </div>  
+        </div>
+        <button type="submit" class="btn btn-primary log-in" [disabled]="loginForm?.invalid">Login</button>
+    </form>
+    <div class="dont-have-account">
+        ---- Don't have an account? ----
+    </div>
+    <button type="submit" class="btn btn-primary log-in" [disabled]="loginForm?.invalid">Sign up</button>
+
+</div>

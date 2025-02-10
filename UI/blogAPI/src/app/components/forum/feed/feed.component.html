@@ -1,0 +1,19 @@
+<div class="feed-container d-flex flex-row">
+    <div class="d-flex flex-column last-visited-categories">
+        <app-last-visited-communities></app-last-visited-communities>
+        <app-category-selector (categoryChanged)="onCategoryChange(+($event))" [forumCategory]="forumCategory"></app-category-selector>
+    </div>
+    <div class="d-flex flex-column">
+        <app-communities-for-feed></app-communities-for-feed>    
+        <div class="d-flex d-row">
+        <div class="d-flex-d-column" style="background-color: #f8f8f8;
+    min-width: 800px;    border-radius: 10px;
+    ">
+        <app-sorting (sortingChanged)="onSortingChanged($event)"></app-sorting>
+        <app-forum-posts-for-feed [posts$]="posts$"></app-forum-posts-for-feed>
+        </div>
+        <app-most-popular-communities></app-most-popular-communities>
+    </div>
+    </div>
+    
+</div>

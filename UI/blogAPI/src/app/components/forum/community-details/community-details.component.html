@@ -1,0 +1,24 @@
+<div class="community-container">
+  <div *ngIf="communityDetails$ | async as community; else error">
+    <div class="header-text">
+
+      <h5> u/{{community.name}}</h5>
+      <p>{{community.description}}</p>
+      <p class="info">Creation date: {{community.creationDate | date}}</p>
+        <div class="d-flex flex-row">
+            <p class="info">Members: {{community.members}}</p>
+            <p class="info">Posts: {{community.postsCount}}</p>
+            <p class="info">Rank: {{community.rank}}</p>
+        </div>
+      <ul class="rule-list">
+        <li class="rule-option" *ngFor="let rule of community.rules">
+            <p>{{rule}}</p>
+        </li>
+      </ul>
+    </div>
+ </div>
+ <ng-template #error>
+  <p>Community not found</p>
+ </ng-template>
+</div>
+  

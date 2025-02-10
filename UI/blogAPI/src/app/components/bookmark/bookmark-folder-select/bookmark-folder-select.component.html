@@ -1,0 +1,27 @@
+<div class="bookmarks-folder-select-list-container">
+    <div class="d-flex justify-content-between">
+        <h3>Bookmarks</h3>
+        <button class="close-button" (click)="closeFolderSelect()"><i class="fa-solid fa-x"></i></button>
+    </div>
+    <p>Save your favourite blogs and authors for later</p>
+    <div class="all-folders">
+    <div class="new-folder-button" *ngIf="!isCreatingNewFolder" (click)="onNewFolderClick()">
+        <i class="fa-solid fa-plus"></i>
+        <span>New Folder</span>
+    </div>
+    <div *ngIf="bookmarksList$ | async as folders">
+        <div *ngFor="let folder of folders" class="bookmark-folder-select-list-item" (click)="onFolderSelect(folder.id)">
+            <div class="bookmark-folder-select-list-item-image">
+                    <img [src]="folder.imageUrl" alt="folder image" />
+            </div>
+            <span>{{ folder.name }}</span>
+        </div>
+    </div>
+</div>
+    <div *ngIf="isCreatingNewFolder" class="new-folder-input-container">
+        <input type="text" [(ngModel)]="newFolderName" placeholder="Enter folder name" class="new-folder-input">
+        <button (click)="onCreateFolderClick()" class="new-folder-create-button">Create</button>
+        <button (click)="isCreatingNewFolder = false">Cancel</button>
+    </div>
+    
+</div>

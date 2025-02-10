@@ -1,0 +1,22 @@
+<div class="category-container">
+    <div class="header-text">
+      <h5><i class="fa-solid fa-pencil-alt"></i> Categories</h5>
+      <ul class="category-list">
+        <li class="category-option" *ngFor="let category of categories$ | async">
+          <label class="radio-label">
+            <input
+              type="radio"
+              name="category"
+              [value]="category.id"
+              [(ngModel)]="categorySelected"
+              (change)="onCategoryChange()"
+              class="radio-input"
+            />
+            <span class="radio-circle"></span>
+            {{ category.name }}
+          </label>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

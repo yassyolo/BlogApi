@@ -1,0 +1,37 @@
+<div class="communities-for-feed-container">
+    <div *ngIf="communities$ | async as communities">
+        <div class="carousel">
+        
+        <button class="carousel-btn left" (click)="prevSlide()" [disabled]="currentIndex === 0">
+          &#10094;
+        </button>
+  
+        <div class="carousel-track">
+          <div class="community" *ngFor="let community of communities.slice(currentIndex, currentIndex + 3)">
+            <div class="post-image">
+              <img [src]="community.postImageUri.trim() !== '' ? community.postImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="post image">
+            </div>
+            <div class="post-community">
+              <div class="d-flex flex-column title-content">
+                <h5>{{ community.postTitle }}</h5>
+                <p>{{(community.postContent| truncateString: 40)}}</p>
+              </div>
+              <div class="d-flex flex-row community-name-image">
+                <div class="community-image">
+                  <img [src]="community.imageUri.trim() !== '' ? community.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="post image">
+                </div>
+                <a [routerLink]="['/communities', community.id]">{{ community.name }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <button class="carousel-btn right" (click)="nextSlide()" [disabled]="currentIndex + 3 >= communities.length">
+          &#10095;
+        </button>
+  
+      </div>
+  
+    </div>
+  </div>
+  

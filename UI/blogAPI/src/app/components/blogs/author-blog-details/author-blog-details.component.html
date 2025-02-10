@@ -1,0 +1,14 @@
+<div class="author-container">
+    <div class="d-flex">
+        <div class="author-image">
+            <img [src]="blog?.authorImageUri?.trim() !== '' ? blog?.authorImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="author image">
+        </div>
+        <div class="author-details">
+            <h5>{{ blog?.authorName }}</h5>
+            <p>{{ blog?.authorDescription }}</p>
+        </div>
+
+    </div>
+    <span (click)="onAuthorClick(blog?.authorId)" class="see-more">See more <i  class="fa-solid fa-arrow-right"></i></span>
+
+</div>

@@ -1,0 +1,54 @@
+<div class="my-achievements">
+    <div class="introduction-container">
+        <h5>Welcome!</h5>
+        <p>Complete tasks and achieve trophies. Climb the rankings and show your progress!</p>
+    </div>
+<div class="achievements-container">
+    <h2>Your achievements <i class="fa-solid fa-trophy"></i></h2>
+  
+    <ng-container *ngIf="achievemnts$ | async as achievements; else loading">
+      <div *ngIf="achievements.length; else noAchievements">
+  
+        <div *ngFor="let category of achievementCategories">
+          <h3 [innerHTML]="category.title"></h3>
+          <div class="achievements-grid">
+            
+            <ng-container *ngFor="let achievement of achievements">
+              <div *ngIf="achievement.conditionType === category.type" class="achievement-card">
+                
+                <img [src]="achievement.imageUri" [alt]="achievement.name" class="achievement-image" /> 
+  
+                <div class="achievement-info">
+                  <h4>{{ achievement.name }}</h4>
+                  <p>{{ achievement.description }}</p> 
+                  <div class="achievement-progress">{{ achievement.progress }} / {{achievement.conditionValue}}</div> 
+
+  
+                  <div class="progress-container">
+                    <div class="progress-bar" 
+                         [style.width.%]="(achievement.progress / achievement.conditionValue) * 100">
+                    </div>
+                    <span>{{ achievement.progress }} / {{ achievement.conditionValue }}</span>
+                  </div>
+                </div>
+  
+              </div>
+            </ng-container>
+  
+          </div>
+        </div>
+  
+      </div>
+    </ng-container>
+  
+    <ng-template #loading>
+      <p>Loading achievements...</p>
+    </ng-template>
+  
+    <ng-template #noAchievements>
+      <p>You have no achievements yet.</p>
+    </ng-template>
+  
+  </div>
+</div>
+  

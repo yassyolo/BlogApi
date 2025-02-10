@@ -1,0 +1,155 @@
+.comments-container {
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #e0e0e0;
+    width: 830px; 
+    border: 1px solid #FF4561;
+}
+.line{
+    display: inline-block;
+    width: 730px;
+    height: 0.5px;
+    background-color: #FF4561;
+    margin-left: 30px;
+}
+.comments-count{
+    margin-top: 30px;
+    flex-direction: row;
+    gap: 10px;
+}
+h3 {
+    text-align: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.cnt{
+    background-color: #FF4561;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    padding: 5px 5px;
+    width: 30px;
+    border-radius: 45px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: none;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+textarea::placeholder {
+    margin-top: 10px;
+    color: #aaa;
+}
+
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.2);
+}
+
+button {
+    position: relative;
+    width: 100px;
+    top: -45px;
+    left: 680px;
+    background-color: #FF4561;
+    color: white;
+    border: none;
+    padding: 6px 13px;
+    border-radius: 45px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: red;
+}
+
+.comment {
+    background: transparent;
+    padding-left: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.author-image {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.author-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-date{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.date{
+    margin-left: 500px;
+}
+
+.comment-author {
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+    margin-bottom: 5px;
+}
+
+.comment-content {
+    font-size: 17px;
+    color: #212121;
+    line-height: 1.5;
+display: flex-start;
+    margin-bottom: 10px;
+margin-left: 50px;
+}
+
+.comment-likes {
+    font-size: 12px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+
+
+p  {
+    color: #333;
+    font-size: 14px;
+}
+
+.likes{
+    background: none;
+    font-size: 17px;
+    transition: all 0.7s ease-in-out;
+}
+
+.likes:hover{
+    background: none;
+    color: #FF4561;
+
+}
+
+
+

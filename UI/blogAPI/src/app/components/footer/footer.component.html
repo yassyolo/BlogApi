@@ -1,0 +1,31 @@
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h3>About Us</h3>
+        <p>Your Blog is a place where writers and readers come together to share, learn, and grow. Join us today!</p>
+      </div>     
+  
+      <div class="footer-section social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+  
+      <div class="footer-section newsletter">
+        <h4>Subscribe to Our Newsletter</h4>
+        <form (ngSubmit)="subscribeToNewsletter()">
+          <input type="email" placeholder="Enter your email" name="email" [(ngModel)]="email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  
+    <div class="footer-bottom">
+      <p>&copy; 2025 Your Blog. All rights reserved.</p>
+    </div>
+  </footer>
+  

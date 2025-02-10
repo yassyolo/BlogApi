@@ -1,0 +1,6 @@
+<div class="sorting-container">
+    <h4><i class="fa-solid fa-sort"></i>Sort By</h4>
+    <select [(ngModel)]="sorting" (ngModelChange)="onSortingChange()" class="sorting-select">
+        <option *ngFor="let sort of sortingOptions" [value]="sort.value">{{ sort.label }}</option>  
+    </select>
+</div>

@@ -1,0 +1,92 @@
+
+.community-image {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+}
+
+img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.forum-posts-container{
+    margin-right: 10px;
+    background-color: #f8f8f8;
+    min-width: 800px;
+   padding: 10px;
+   border-radius: 10px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.forum-post{
+    border-bottom: 1px solid #817f7f;
+    padding: 5px;
+}
+.community-date{
+    margin-top: 8px;
+    width: 60%;
+    font-size: 13px;
+}
+.community-date p{
+    margin-top: 5px;
+    color: #929292;
+}
+.community-date .name{
+    font-weight: 600;
+    font-size: 14px;
+    color: #555555
+}
+
+h5{
+    color: rgb(41, 40, 40);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.post-content p{
+    color: #555555;
+    font-size: 15px;
+    text-decoration: none;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    transition: all 0.5s ease;
+    margin-top: 5px;
+}
+
+.votes{
+    background-color: #e5ebee;
+    color:#474646;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 20px;
+    gap: 5px;
+}
+a{
+    background-color: #e5ebee;
+    color:#474646;
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 20px;
+    gap: 5px;
+}
+
+.votes button{
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0px;
+    border-radius: 5px;
+}
+
