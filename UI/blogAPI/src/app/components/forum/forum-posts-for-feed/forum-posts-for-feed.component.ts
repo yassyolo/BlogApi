@@ -20,7 +20,7 @@ export class ForumPostsForFeedComponent implements OnChanges, OnDestroy {
 
   @Input() posts$?: Observable<ForumPostsForFeed[]>;
 
-  constructor(private forumService: ForumService, private router: Router, private route: ActivatedRoute) {
+  constructor(private forumService: ForumService, private route: ActivatedRoute) {
     this.id = parseInt(this.route.snapshot.paramMap.get('id') || '');
   }
 

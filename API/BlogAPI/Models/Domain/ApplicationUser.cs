@@ -43,6 +43,9 @@ namespace BlogAPI.Models.Domain
         [Comment("Navigation property to the forum post comments that this user has created")]
         public IEnumerable<ForumPostComment> ForumPostComments { get; set; } = new List<ForumPostComment>();
 
+        [Comment("Navigation property to the forum post comment replies that this user has created")]
+        public IEnumerable<Stream> Streams { get; set; } = new List<Stream>();
+
 
         [Comment("Points of user")]
         public int Points { get; set; }

@@ -27,4 +27,9 @@ socket.on('broadcaster', async (offer) => {
         })
     }
 
+    const answer = await peerConnection.setRemoteDescription(offer);
+    const localDescription = await peerConnection.createAnswer();   
+    await peerConnection.setLocalDescription(localDescription);
+    socket.emit('broadcasterAnswer', peerConnection.localDescription);
+
 })

@@ -8,9 +8,12 @@
   
         <div class="carousel-track">
           <div class="community" *ngFor="let community of communities.slice(currentIndex, currentIndex + 3)">
-            <div class="post-image">
+            <a [routerLink]="['/forum/community', community.id]" > <div class="post-image">
               <img [src]="community.postImageUri.trim() !== '' ? community.postImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="post image">
             </div>
+          </a>
+
+           
             <div class="post-community">
               <div class="d-flex flex-column title-content">
                 <h5>{{ community.postTitle }}</h5>
@@ -20,7 +23,7 @@
                 <div class="community-image">
                   <img [src]="community.imageUri.trim() !== '' ? community.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="post image">
                 </div>
-                <a [routerLink]="['/communities', community.id]">{{ community.name }}</a>
+                <a [routerLink]="['/forum/community', community.id]" >c/{{ community.name }}</a>
               </div>
             </div>
           </div>

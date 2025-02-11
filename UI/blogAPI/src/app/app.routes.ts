@@ -17,6 +17,8 @@ import { TopRankingBlogsComponent } from './components/achievements/top-ranking-
 import { TopUsersComponent } from './components/achievements/top-users/top-users.component';
 import { PersonalAchievementsComponent } from './components/achievements/personal-achievements/personal-achievements.component';
 import { FeedComponent } from './components/forum/feed/feed.component';
+import { ForumCategoryFeedComponent } from './components/forum/forum-category-feed/forum-category-feed.component';
+import { CommunityFeedComponent } from './components/forum/community-feed/community-feed.component';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },  
@@ -33,7 +35,9 @@ export const routes: Routes = [
     {path: 'achievements/top-ranking-blogs', component: TopRankingBlogsComponent},
     {path: 'achievements/top-ranking-users', component: TopUsersComponent},
     {path: 'achievements', component: PersonalAchievementsComponent},
-    {path: 'forum/feed', component: FeedComponent}
+    {path: 'forum/feed', component: FeedComponent},
+    {path: 'forum/category/:id', component: ForumCategoryFeedComponent},
+    {path: 'forum/community/:id', component: CommunityFeedComponent},
 
 ];
 

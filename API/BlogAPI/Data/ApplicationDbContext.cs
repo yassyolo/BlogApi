@@ -3,6 +3,7 @@ using BlogAPI.Models.Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Stream = BlogAPI.Models.Domain.Stream;
 
 namespace BlogAPI.Data
 {
@@ -116,7 +117,8 @@ namespace BlogAPI.Data
             modelBuilder.ApplyConfiguration(new ForumPostConfiguration());
             modelBuilder.ApplyConfiguration(new ForumPostCommentConfiguration());
             modelBuilder.ApplyConfiguration(new VisitedForumCommunityConfiguration());
-
+            modelBuilder.ApplyConfiguration(new StreamConfiguration());
+            modelBuilder.ApplyConfiguration(new UserStreamConfiguration());
         }
 
         public DbSet<Blog> BlogPosts { get; set; }
@@ -136,5 +138,7 @@ namespace BlogAPI.Data
         public DbSet<ForumPost> ForumPosts { get; set; }
         public DbSet<ForumPostComment> ForumPostComments { get; set; }
         public DbSet<VisitedForumCommunity> VisitedForumCommunities { get; set; }
+        public DbSet<Stream> Streams { get; set; }
+        public DbSet<UserStream> UserStreams { get; set; }
     }
 }

@@ -10,29 +10,26 @@ import { ForumService } from '../../forum/services/forum.service';
   selector: 'app-category-selector',
   imports: [FormsModule, CommonModule],
   templateUrl: './category-selector.component.html',
-  styleUrl: './category-selector.component.css',
+  styleUrls: ['./category-selector.component.css'],
   standalone: true
 })
 export class CategorySelectorComponent implements OnInit {
-  @Input() forumCategory?: boolean;
+  @Input() forumCategory?: boolean; // Ensure this input property is defined
   @Output() categoryChanged = new EventEmitter<string>();
   categorySelected: string = '';
   categories$?: Observable<any>;
 
-  constructor(private categoryService: CategoryService, private forumService: ForumService){}
+  constructor(private categoryService: CategoryService, private forumService: ForumService) {}
 
-  onCategoryChange() : void{
+  onCategoryChange(): void {
     this.categoryChanged.emit(this.categorySelected);
   }
 
   ngOnInit(): void {
-    if(this.forumCategory){
+    if (this.forumCategory) {
       this.categories$ = this.forumService.getAllcategories();
-    }
-    else{
+    } else {
       this.categories$ = this.categoryService.getCategories();
     }
   }
 }
-  
-

@@ -74,7 +74,9 @@ namespace BlogAPI.Repositories.Implementation
         {
             var queryable = context.ForumPosts
                 .Include(x => x.ForumCommunity).ThenInclude(x => x.ForumCategory)
-                .Include(x => x.ForumCommunity).ThenInclude(x => x.Image).Include(x => x.Image).AsQueryable();
+                .Include(x => x.ForumCommunity).ThenInclude(x => x.Image)
+                .Include(x => x.Image)
+                .Include(x => x.User).ThenInclude(x => x.ProfileImage).AsQueryable();
             if (forumId != null)
             {
                 queryable = queryable.Where(x => x.ForumCommunityId == forumId);
@@ -93,10 +95,10 @@ namespace BlogAPI.Repositories.Implementation
                     case "dateAsc":
                         queryable = queryable.OrderBy(x => x.CreatedAt);
                         break;
-                    case "most-voted":
+                    case "mostVoted":
                         queryable = queryable.OrderByDescending(x => x.Votes);
                         break;
-                    case "most-commented":
+                    case "mostCommented":
                         queryable = queryable.OrderByDescending(x => x.Comments.Count());
                         break;
                     default:

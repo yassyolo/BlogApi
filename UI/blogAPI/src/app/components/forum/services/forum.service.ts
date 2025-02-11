@@ -48,8 +48,8 @@ export class ForumService {
     return this.http.get<ForumPostsForFeed[]>(`${this.apiUrl}/feed`, {params});
   }
 
-  getForumCommunitiesAndPostsByCategory(categoryId: number) : void{
-    this.http.get(`${this.apiUrl}/communities/${categoryId}`);
+  getForumCommunitiesAndPostsByCategory(categoryId: number) : Observable<any>{
+    return this.http.get(`${this.apiUrl}/communities/${categoryId}`);
   }
 
   downvotePost(postId: number) : Observable<any>{

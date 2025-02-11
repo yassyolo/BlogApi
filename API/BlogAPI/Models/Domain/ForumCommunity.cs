@@ -3,6 +3,7 @@ using Microsoft.Extensions.Hosting;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace BlogAPI.Models.Domain
 {
@@ -46,6 +47,8 @@ namespace BlogAPI.Models.Domain
         [Comment("Rules of the community")]
         public string RulesJson { get; set; } = string.Empty;
 
+        [NotMapped]
+        [JsonIgnore]
         public List<string> Rules
         {
             get => JsonSerializer.Deserialize<List<string>>(RulesJson);
