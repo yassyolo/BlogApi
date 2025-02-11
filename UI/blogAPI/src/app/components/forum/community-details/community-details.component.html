@@ -1,16 +1,21 @@
 <div class="community-container">
   <div *ngIf="communityDetails$ | async as community; else error">
     <div class="header-text">
-
+      <div class="d-flex flex-row">
+      <div class="community-image">
+      <img [src]="community.imageUri.trim() !== '' ? community.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="post image">
+    </div>
       <h5> u/{{community.name}}</h5>
+    </div>
       <p>{{community.description}}</p>
-      <p class="info">Creation date: {{community.creationDate | date}}</p>
-        <div class="d-flex flex-row">
+      <p class="info" style="margin-top: 20px;">Creation date: {{community.creationDate | date}}</p>
+        <div class="d-flex flex-row gap-3">
             <p class="info">Members: {{community.members}}</p>
             <p class="info">Posts: {{community.postsCount}}</p>
-            <p class="info">Rank: {{community.rank}}</p>
         </div>
-      <ul class="rule-list">
+        <p class="info">Rank: {{community.rank}}</p>
+        <h5 *ngIf="showRules" style="margin-top: 20px;">Rules</h5>
+      <ul class="rule-list" *ngIf="showRules">
         <li class="rule-option" *ngFor="let rule of community.rules">
             <p>{{rule}}</p>
         </li>

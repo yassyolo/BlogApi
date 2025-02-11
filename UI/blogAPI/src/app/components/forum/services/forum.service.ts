@@ -8,6 +8,7 @@ import { CommunitiesForFeed } from '../models/communities-for-feed.model';
 import { ForumPostsForFeed } from '../models/forum-posts-for-feed.model';
 import { CreateForumPost } from '../models/create-forum-post.model';
 import { ForumCommunity } from '../models/forum-community.model';
+import { ForumPostDetails } from '../models/forum-post-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class ForumService {
     return this.http.get<CommunitiesForFeed[]>(`${this.apiUrl}/communities/feed`);
   }
 
-  getFeed(sorting?: string | null, forumId?: number | null, categoryId?: number  ): Observable<ForumPostsForFeed[]>{
+  getFeed(sorting?: string | null, forumId?: number | null, categoryId?: number | null): Observable<ForumPostsForFeed[]>{
     let params = new HttpParams();
     if(sorting){
       params = params.set('sorting', sorting);
@@ -60,23 +61,49 @@ export class ForumService {
   }
 
   joinCommunity(id: number): Observable<any>{
-    return this.http.post(`${this.apiUrl}/communities/${id}/join`, {});
+    return this.http.post(`${this.apiUrl}/community/${id}/join`, {});
   }
 
   leaveCommunity(id: number): Observable<any>{
-    return this.http.post(`${this.apiUrl}/communities/${id}/leave`, {});
+    return this.http.post(`${this.apiUrl}/community/${id}/leave`, {});
+
   }
 
   createForumPost(request: CreateForumPost) : Observable<any>{
     return this.http.post(`${this.apiUrl}/posts`, request);
   }
 
-  deleteForumPost(id: number, postId: number) : Observable<any>{
-    return this.http.delete(`${this.apiUrl}/community/${id}/post/${postId}`);
+  deleteForumPost(id: number) : Observable<any>{
+    return this.http.delete(`${this.apiUrl}/post/${id}`);
   }
 
   getForumCommunity(id: number) : Observable<ForumCommunity>{
     return this.http.get<ForumCommunity>(`${this.apiUrl}/community/${id}`);
   }
 
+  getForumCategoryDetails(id: number) : Observable<ForumCategory>{
+    return this.http.get<ForumCategory>(`${this.apiUrl}/category/${id}`);
+  }
+
+  getForumPostDetails(id: number) : Observable<ForumPostDetails>{
+    return this.http.get<ForumPostDetails>(`${this.apiUrl}/posts/${id}`);
+  }
+
+  upVoteComment(id: number, commentId: number) : Observable<any>{
+    return this.http.put(`${this.apiUrl}/post/${id}/comments/${commentId}/upvote`, {});
+  }
+
+  downVoteComment(id: number, commentId: number) : Observable<any>{
+    return this.http.put(`${this.apiUrl}/post/${id}/comments/${commentId}/downvote`, {});
+  }
+
+  createForumComment(id: number, comment: string) : Observable<any>{
+    return this.http.post(`${this.apiUrl}/post/${id}/comments`, JSON.stringify(comment), {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  getForumCommunitiesByCategory(id: number) : Observable<MostPopularCommunities[]>{
+    return this.http.get<MostPopularCommunities[]>(`${this.apiUrl}/category/${id}/communities`);
+  }
 }

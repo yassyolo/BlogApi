@@ -1,0 +1,87 @@
+<div class="feed-container d-flex flex-row">
+    <div class="d-flex flex-column last-visited-categories">
+        <app-last-visited-communities></app-last-visited-communities>
+        <app-category-selector (categoryChanged)="onCategoryChange(+($event))" [IsforumCategory]="true"></app-category-selector>
+    </div>
+    <div class="forum-posts-container d-flex flex-column">
+        <div *ngIf="forumPost$ | async as post; else error">
+            <div *ngIf="post === null">
+                <ng-container *ngTemplateOutlet="error"></ng-container>
+            </div>
+            <div class="forum-post">
+                <div class="d-flex flex-row community-date">
+                    <div class="community-image">
+                        <img [src]="post.communityImageUri.trim() !== ''? post.communityImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
+                    </div>
+                    <p class="name">c/{{ post.communityName }}</p>
+                    <p style="margin-left: 40px;">{{ post.date  | date}}</p>
+                    <button style="margin-left: 300px; outline:none;background: none; border: none;"class="delete" (click)="deletePost(post.id)"><i style="color: #FF4561;" class="fa-solid fa-trash"></i></button>
+                </div>
+                <div class="d-flex justify-content-between flex-column post-content">
+                    <h5>{{ post.title }}</h5>
+                    <div class="post-image">
+                        <img *ngIf="post.imageUri" [src]="post.imageUri.trim() !== ''? post.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
+                    </div>
+                    <p>{{ post.content }}</p>
+                </div>
+                <div class="d-flex flex-row buttons gap-4">
+                    <div class="d-flex flex-row votes">
+                        <button style="margin-right:5px;"(click)="upVote(post.id)"><i class="fa-solid fa-thumbs-up"></i></button>
+                        {{post.votes}}
+                        <button style="margin-left:5px;" (click)="downVote(post.id)"><i class="fa-solid fa-thumbs-down"></i></button>
+                    </div>
+                    <a ><i style="color: white;"class="fa-solid fa-comment"></i> {{post.commentsCount}}</a>
+                </div>
+    
+            </div>
+        </div>
+        <ng-template #error>
+            <div class="no-posts">
+                <h5 style="color: rgb(48, 48, 48); text-align:center;">No such post exists!</h5>
+            </div>
+        </ng-template>
+        <div class="comments-container">
+  
+            <form (submit)="submitComment($event)">
+              <textarea [(ngModel)]="newComment" name="newComment"
+              placeholder="Write a comment..." rows="2" required></textarea>
+              <button type="submit" class="submit">Submit</button>
+              <span class="line"></span>
+        
+            </form>
+            <div class="d-flex comments-count"><h3>Comments</h3>
+                <span *ngIf="forumPost$ | async as post" class="cnt">{{post.comments.length}}</span></div>
+            
+        
+              <div *ngIf="comments$ | async as comments; else loading">
+              <div *ngIf="comments.length > 0; else noComments">
+                <div *ngFor="let comment of comments" class="comment">
+                    <div class="d-flex author-date">
+                        <img [src]="comment.authorImageUrl.trim() !== '' ? comment.authorImageUrl :  'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Author Image" class="author-image" />
+                        <p class="comment-author" >{{ comment.authorName }} </p>
+                        <p class="date">{{ comment.createdAt| date:'short' }}</p>
+                    </div>
+                    <div class="d-flex flex-row content-button">
+                  <p class="comment-content">{{ comment.content }}</p>
+                    <button (click)="likeComment(comment.id)" class="likes">
+                        <i class="fa-regular fa-heart"></i> {{ comment.votes }}
+                  </button>
+                </div>
+                </div>
+              </div>
+          
+              <ng-template #noComments>
+                <p>No comments yet. Be the first to comment!</p>
+              </ng-template>
+            </div>
+          
+            <ng-template #loading>
+              <p>Loading comments...</p>
+            </ng-template>
+          </div>
+    </div>
+    <app-community-details [showRules]="false" [communityDetails$]="communityDetails$"></app-community-details>
+
+</div>
+
+  

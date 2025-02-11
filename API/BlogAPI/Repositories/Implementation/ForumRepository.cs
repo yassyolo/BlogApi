@@ -15,9 +15,31 @@ namespace BlogAPI.Repositories.Implementation
             this.context = context;
         }
 
+        public async Task<bool> CommentExistsAsync(int commentId)
+        {
+            return await context.ForumPostComments.AnyAsync(x => x.Id == commentId);
+        }
+
         public async Task<bool> CommunityWithIdExistsAsync(int id)
         {
             return await context.ForumCommunities.AnyAsync(x => x.Id == id);
+        }
+
+        public async Task<ForumPostComment> CreateCommentAsync(string userId, int id, string comment)
+        {
+            var forumComment = new ForumPostComment
+            {
+                Content = comment,
+                ForumPostId = id,
+                UserId = userId,
+                CreatedAt = DateTime.Now,
+            };
+
+            await context.ForumPostComments.AddAsync(forumComment);
+            await context.SaveChangesAsync();
+
+            var newForumComent = await context.ForumPostComments.Include(x => x.User).ThenInclude(x => x.ProfileImage).FirstOrDefaultAsync(x => x.Id == forumComment.Id);
+            return newForumComent;
         }
 
         public async Task CreatePostAsync(string userId, int id, CreateForumPostDto post)
@@ -41,6 +63,13 @@ namespace BlogAPI.Repositories.Implementation
             await context.SaveChangesAsync();
         }
 
+        public async Task DownVoteCommentAsync(string userId, int commentId)
+        {
+            var comment = await context.ForumPostComments.FirstOrDefaultAsync(x => x.Id == commentId);
+            comment.Votes--;
+            await context.SaveChangesAsync();
+        }
+
         public async Task<bool> ForumCategoryWithIdExistsAsync(int id)
         {
             return await context.ForumCategories.AnyAsync(x => x.Id == id);
@@ -54,6 +83,11 @@ namespace BlogAPI.Repositories.Implementation
         public async Task<IEnumerable<ForumCommunity>> GetCommunitiesForFeedAsync()
         {
             return await context.ForumCommunities.Include(x => x.ForumPosts).Include(x => x.Image).Where(x => x.ForumPosts != null).OrderByDescending(x => x.UserForumCommunities.Count()).Take(7).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ForumCommunity>> GetCommunitiesInCategoryAsync(int categoryId)
+        {
+            return await context.ForumCommunities.Include(x => x.ForumCategory).Include(x => x.Image).Include(x => x.UserForumCommunities).Where(x => x.ForumCategoryId == categoryId).ToListAsync();
         }
 
         public async Task<ForumCommunity> GetCommunityAsync(int id)
@@ -83,7 +117,11 @@ namespace BlogAPI.Repositories.Implementation
             }
             if (categoryId != null)
             {
-                queryable = queryable.Where(x => x.ForumCommunity.ForumCategoryId == categoryId);
+                queryable = context.ForumCategories
+                    .Include(x => x.ForumCommunities).ThenInclude(x => x.ForumPosts).ThenInclude(x => x.ForumCommunity)
+                    .Include(x => x.ForumCommunities).ThenInclude(x => x.ForumPosts).ThenInclude(x => x.Image)
+                    .Include(x => x.ForumCommunities).ThenInclude(x => x.ForumPosts).ThenInclude(x => x.User).ThenInclude(x => x.ProfileImage)
+                    .Where(x => x.Id == categoryId).SelectMany(x => x.ForumCommunities).SelectMany(x => x.ForumPosts).AsQueryable();
             }
             if(!string.IsNullOrEmpty(sorting))
             {
@@ -111,7 +149,10 @@ namespace BlogAPI.Repositories.Implementation
 
         public async Task<ForumCategory> GetForumCategoryAsync(int id)
         {
-            return await context.ForumCategories.Include(x => x.ForumCommunities).ThenInclude(x => x.UserForumCommunities).FirstOrDefaultAsync(x => x.Id == id);
+            return await context.ForumCategories
+                .Include(x => x.ForumCommunities).ThenInclude(x => x.UserForumCommunities)
+                .Include(x => x.ForumCommunities).ThenInclude(x => x.ForumPosts)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<IEnumerable<ForumCommunity>> GetLastVisitedCommunitiesAsync()
@@ -122,6 +163,16 @@ namespace BlogAPI.Repositories.Implementation
         public async Task<IEnumerable<ForumCommunity>> GetMostPopularCommunitiesAsync()
         {
             return await context.ForumCommunities.Include(x => x.UserForumCommunities).OrderByDescending(x => x.UserForumCommunities.Count()).Take(6).ToListAsync();
+        }
+
+        public async Task<ForumPost> GetPostAsync(int id)
+        {
+            return await context.ForumPosts
+                .Include(x => x.ForumCommunity).ThenInclude(x => x.ForumCategory)
+                .Include(x => x.Image)
+                .Include(x => x.User).ThenInclude(x => x.ProfileImage)
+                .Include(x => x.Comments).ThenInclude(x => x.User).ThenInclude(x => x.ProfileImage)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task JoinCommunityAsync(string userId, int id)
@@ -156,6 +207,13 @@ namespace BlogAPI.Repositories.Implementation
         public async Task<bool> UserIsMemberOfCommunityAsync(string userId, int id)
         {
             return await context.UserForumCommuntities.AnyAsync(x => x.UserId == userId && x.ForumCommunityId == id);
+        }
+
+        public async Task VoteCommentAsync(string userId, int commentId)
+        {
+            var comment = await context.ForumPostComments.FirstOrDefaultAsync(x => x.Id == commentId);
+            comment.Votes++;
+            await context.SaveChangesAsync();
         }
     }
 }

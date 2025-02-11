@@ -1,0 +1,17 @@
+<div class="communities-container">
+    <div *ngIf="communities$ | async as communities; else loading">
+        <div *ngFor="let community of communities">
+            <div class="community d-flex flex-column">
+                <div class="d-flex flex-row">
+                <div class="community-image">
+                    <img [src]="community.imageUri.trim() !== ''? community.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
+                </div>
+                <a (click)="onCommunityClick(community.id)" >c/{{ community.name }}</a>
+            </div>
+                <p>{{community.members}} members</p>
+            </div>
+
+        </div>
+    </div>
+    <ng-template #loading>Loading...</ng-template>
+</div>

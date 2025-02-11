@@ -17,5 +17,76 @@ app-sorting{
     margin-top: 10px;
     padding: 5px;
 }
+.community-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+}
+
+
+img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.community-details{
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+h5{
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.buttons{
+    margin-left: 500px;
+    display: flex;
+    gap: 20px;
+}
+
+.join{
+    padding: 5px 18px;
+    background-color: #FF4561;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+
+.join:hover{
+    background-color: #FF4561;
+    color: white;
+    transform: scale(1.1);
+}
+
+.create-post{
+    padding: 5px 18px;
+    background-color: white;
+    color:#FF4561;
+    border: 1px solid #FF4561;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.create-post:hover{
+    background-color: white;
+    color:#FF4561;
+    transform: scale(1.1);
+}
 
 

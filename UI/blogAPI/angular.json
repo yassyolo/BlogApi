@@ -70,10 +70,7 @@
               "buildTarget": "blogAPI:build:development"
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "ssl": false
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
@@ -102,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "81806d15-2068-4aaf-a234-b126e413adc2"
+    "analytics": false
   }
 }

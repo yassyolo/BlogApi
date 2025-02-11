@@ -19,6 +19,8 @@ import { PersonalAchievementsComponent } from './components/achievements/persona
 import { FeedComponent } from './components/forum/feed/feed.component';
 import { ForumCategoryFeedComponent } from './components/forum/forum-category-feed/forum-category-feed.component';
 import { CommunityFeedComponent } from './components/forum/community-feed/community-feed.component';
+import { ForumPostDetailsComponent } from './components/forum/forum-post-details/forum-post-details.component';
+import { StreamFeedComponent } from './components/stream/stream-feed/stream-feed.component';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },  
@@ -38,6 +40,8 @@ export const routes: Routes = [
     {path: 'forum/feed', component: FeedComponent},
     {path: 'forum/category/:id', component: ForumCategoryFeedComponent},
     {path: 'forum/community/:id', component: CommunityFeedComponent},
+    {path: 'forum/post/:id', component: ForumPostDetailsComponent},
+    {path: 'stream', component: StreamFeedComponent}
 
 ];
 

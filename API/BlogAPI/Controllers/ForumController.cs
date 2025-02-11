@@ -190,8 +190,8 @@ namespace BlogAPI.Controllers
         }
 
         [HttpDelete]
-        [Route("community/{id}/post/{postId}")]
-        public async Task<IActionResult> DeletePost(int id, int postId)
+        [Route("post/{id}")]
+        public async Task<IActionResult> DeletePost(int id)
         {
             var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
             /*var userId = User.GetUserId();
@@ -200,27 +200,17 @@ namespace BlogAPI.Controllers
              *                                     return NotFound();
              *                                                                                                }*/
 
-            if(await forumRepository.CommunityWithIdExistsAsync(id) == false)
+            if(await forumRepository.PostExistsAsync(id) == false)
             {
                 return NotFound();
             }
 
-            if(await forumRepository.UserIsMemberOfCommunityAsync(userId, id) == false)
+            if(await forumRepository.UserIsAuthorOfPostAsync(userId, id) == false)
             {
                 return BadRequest();
             }
 
-            if(await forumRepository.PostExistsAsync(postId) == false)
-            {
-                return NotFound();
-            }
-
-            if(await forumRepository.UserIsAuthorOfPostAsync(userId, postId) == false)
-            {
-                return BadRequest();
-            }
-
-            await forumRepository.DeletePostAsync(postId);
+            await forumRepository.DeletePostAsync(id);
 
             return Ok();
         }
@@ -274,6 +264,162 @@ namespace BlogAPI.Controllers
                 PostsCount = category.ForumCommunities.SelectMany(x => x.ForumPosts).Count()
             };
 
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("category/{id}/communities")]
+        public async Task<IActionResult> GetCommunitiesInCategory(int id)
+        {
+            if(await forumRepository.ForumCategoryWithIdExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
+
+            var communities = await forumRepository.GetCommunitiesInCategoryAsync(id);
+
+            var response = communities.Select(x => new MostPopularCommunitiesDto()
+            {
+                Id = x.Id,
+                Name = x.Name,               
+                ImageUri = x.Image != null ? x.Image.Url : "",
+                Members = x.UserForumCommunities.Count(),
+               
+            });
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("posts/{id}")]
+        public async Task<IActionResult> GetPost(int id)
+        {
+            if(await forumRepository.PostExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
+
+            var post = await forumRepository.GetPostAsync(id);
+
+            var response = new ForumPostDto()
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                Date = post.CreatedAt.ToString("dd-MM-yyyy"),
+                ImageUri = post.Image != null ? post.Image.Url : "",
+                CommentsCount = post.Comments.Count(),
+                Votes = post.Votes,
+                CommunityName = post.ForumCommunity.Name,
+                CommunityId = post.ForumCommunity.Id,
+                CommunityImageUri = post.ForumCommunity.Image != null ? post.ForumCommunity.Image.Url : "",
+                AuthorName = post.User.FirstName + " " + post.User.LastName,
+                AuthorImageUri = post.User.ProfileImage != null ? post.User.ProfileImage.Url : "",
+                Comments = post.Comments.Select(x => new ForumCommentDto()
+                {
+                    Id = x.Id,
+                    Content = x.Content,
+                    CreatedAt = x.CreatedAt.ToString("dd-MM-yyyy"),
+                    AuthorName = x.User.FirstName + " " + x.User.LastName,
+                    AuthorId = x.User.Id,
+                    AuthorImageUrl = x.User.ProfileImage != null ? x.User.ProfileImage.Url : "",
+                    Votes = x.Votes
+                }).ToArray()
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [Route("post/{id}/comments/{commentId}/upvote")]
+        public async Task<IActionResult> VoteComment(int id, int commentId)
+        {
+            var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
+            /*var userId = User.GetUserId();
+             *             *            if(await tokenRepository.UserWithUserIdExistsAsync(userId) == false)
+             *                         *                       {
+             *                                     *                                      return NotFound();
+             *                                                 *                                                 }*/
+
+            if(await forumRepository.PostExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
+
+            if(await forumRepository.CommentExistsAsync(commentId) == false)
+            {
+                return NotFound();
+            }
+
+            /*if(await forumRepository.UserHasVotedOnCommentAsync(userId, commentId) == true)
+            {
+                return BadRequest();
+            }*/
+
+            await forumRepository.VoteCommentAsync(userId, commentId);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("post/{id}/comments/{commentId}/downvote")]
+        public async Task<IActionResult> DownVoteComment(int id, int commentId)
+        {
+            var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
+            /*var userId = User.GetUserId();
+             *             *             *            if(await tokenRepository.UserWithUserIdExistsAsync(userId) == false)
+             *                         *                         *                       {
+             *                                     *                                     *                                      return NotFound();
+             *                                                 *                                                 *                                                 }*/
+
+            if(await forumRepository.PostExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
+
+            if(await forumRepository.CommentExistsAsync(commentId) == false)
+            {
+                return NotFound();
+            }
+
+            /*if(await forumRepository.UserHasVotedOnCommentAsync(userId, commentId) == true)
+             *            {
+             *                           return BadRequest();
+             *                                      }*/
+
+            await forumRepository.DownVoteCommentAsync(userId, commentId);
+
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("post/{id}/comments")]
+        public async Task<IActionResult> CreateComment(int id, [FromBody]string comment)
+        {
+            var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
+            /*var userId = User.GetUserId();
+             *             *             *             *             *            if(await tokenRepository.UserWithUserIdExistsAsync(userId) == false)
+             *                         *                         *                         *                         *                       {
+             *                                     *                                     *                                     *                                     *                                      return NotFound();
+             *                                                 *                                                 *                                                 *                                                 *                                                 }*/
+
+            if(await forumRepository.PostExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
+
+            var newComment = await forumRepository.CreateCommentAsync(userId, id, comment);
+            var response = new ForumCommentDto()
+            {
+                Id = newComment.Id,
+                Content = newComment.Content,
+                CreatedAt = newComment.CreatedAt.ToString("dd-MM-yyyy"),
+                AuthorId = newComment.UserId,
+                AuthorName = newComment.User.FirstName + " " + newComment.User.LastName,
+                AuthorImageUrl = newComment.User.ProfileImage != null ? newComment.User.ProfileImage.Url : "",
+                Votes = newComment.Votes
+            };
+    
             return Ok(response);
         }
     }

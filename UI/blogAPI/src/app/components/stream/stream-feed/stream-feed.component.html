@@ -1,0 +1,31 @@
+<div class="streams-container">
+    <div class="d-flex flex-column">
+       <app-category-selector (categoryChanged)="onCategoryChange(+($event))" [IsforumCategory]="false"></app-category-selector>
+       <app-search (searchQueryChanged)="onSearchQueryChange($event)"></app-search>
+    </div>  
+    <div  *ngIf="streamList$ | async as streams; else none" class="stream-list">
+        <div [routerLink]="['stream', stream.id]" *ngFor="let stream of streams" class="stream">
+            <div class="stream-image">
+                <img [src]="stream.imageUri.trim() !== '' ? stream.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="stream image">
+            </div>
+            <h5>{{ stream.name }}</h5>
+            <p>{{ stream.when }}</p>
+            <div class="d-flex flex-row owner">
+                <p>By: </p>
+                <div class="commuity-image">
+                   <img [src]="stream.ownerImageUrl" alt="user image">
+                </div>
+                <p>{{ stream.ownerName }}</p>
+            </div>
+            <p>{{stream.viewersCount}}/{{stream.viwersLimit}} members</p>
+           
+            <button class="join" (click)="joinStream(stream.id)">Join</button>
+        </div>
+    </div>
+    <ng-template #none>
+        <p>No streams found</p>
+    </ng-template>
+    <div class="info-container">
+        <p>hehe</p>
+    </div>
+</div>

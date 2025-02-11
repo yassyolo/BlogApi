@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CategoryIndex } from '../models/category-index.model';
 import { CategoryService } from '../services/category.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ForumService } from '../../forum/services/forum.service';
+import { Router } from 'express';
 
 @Component({
   selector: 'app-category-selector',
@@ -14,7 +14,7 @@ import { ForumService } from '../../forum/services/forum.service';
   standalone: true
 })
 export class CategorySelectorComponent implements OnInit {
-  @Input() forumCategory?: boolean; // Ensure this input property is defined
+  @Input() IsforumCategory?: boolean; 
   @Output() categoryChanged = new EventEmitter<string>();
   categorySelected: string = '';
   categories$?: Observable<any>;
@@ -26,7 +26,7 @@ export class CategorySelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.forumCategory) {
+    if (this.IsforumCategory) {
       this.categories$ = this.forumService.getAllcategories();
     } else {
       this.categories$ = this.categoryService.getCategories();

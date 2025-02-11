@@ -1,7 +1,7 @@
 <div class="home-container">
 <div class="side-section">
 <app-search (searchQueryChanged)="onSearchQueryChange($event)"></app-search>
-<app-category-selector (categoryChanged)="onCategoryChange(+($event))" [forumCategory]="forumCategory"></app-category-selector>
+<app-category-selector (categoryChanged)="onCategoryChange(+($event))" [IsforumCategory]="false"></app-category-selector>
 <app-top-blogs></app-top-blogs>
 </div>
 <app-blog-list [categoryId]="categoryId" [query]="query"></app-blog-list>

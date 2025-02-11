@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CategorySelectorComponent } from '../../blogs/category-selector/category-selector.component';
 import { SortingComponent } from '../../bookmark/sorting/sorting.component';
 import { ForumService } from '../services/forum.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { ForumPostsForFeed } from '../models/forum-posts-for-feed.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForumCommunity } from '../models/forum-community.model';
@@ -19,25 +19,31 @@ import { CommunityDetailsComponent } from '../community-details/community-detail
 })
 export class CommunityFeedComponent implements OnInit{
   @Output() communityDetails$?: Observable<ForumCommunity>;
-  forumCategory: boolean = true;
-  sorting: string = '';
+  private sorting$ = new BehaviorSubject<string | null>(null);
   posts$?: Observable<ForumPostsForFeed[]>;
-  forumId?: number;
+  forumCommunityId?: number;
 
   constructor(private forumService: ForumService, private route: ActivatedRoute, private router: Router) {}
   ngOnInit(): void {
-    this.forumId = parseInt(this.route.snapshot.paramMap.get('id') || '');
-    this.communityDetails$ = this.forumService.getForumCommunity(this.forumId);
-    this.posts$ = this.forumService.getFeed(this.sorting, this.forumId);
+    this.posts$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        const forumId = parseInt(params.get('id') || '', 10);
+        this.forumCommunityId = forumId;
+        this.communityDetails$ = this.forumService.getForumCommunity(forumId);
+  
+        return this.sorting$.pipe(
+          switchMap(sorting => this.forumService.getFeed(sorting, forumId, null))
+        );
+      })
+    );
   }
-
+  
   onSortingChanged(sorting: string) : void{
-    this.sorting = sorting;
-    this.posts$ = this.forumService.getFeed(this.sorting);
+    this.sorting$.next(sorting);
   }
 
   onCategoryChange(categoryId: number) : void{
-    this.forumService.getForumCommunitiesAndPostsByCategory(categoryId);
+    this.router.navigate([`/forum/category/${categoryId}`]);
   }
 
   joinCommunity(forumId: number) : void{

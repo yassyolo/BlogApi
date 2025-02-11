@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './community-details.component.css'
 })
 export class CommunityDetailsComponent {
+  @Input() showRules?: boolean;
   @Input() communityDetails$?: Observable<ForumCommunity>;
   forumId?: number;
   constructor(private forumService:ForumService, private route: ActivatedRoute) {}

@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Inject, OnInit } from '@angular/core';
 import { CategorySelectorComponent } from '../../blogs/category-selector/category-selector.component';
 import { MostPopularCommunitiesComponent } from '../most-popular-communities/most-popular-communities.component';
 import { LastVisitedCommunitiesComponent } from '../last-visited-communities/last-visited-communities.component';
@@ -8,16 +8,14 @@ import { SortingComponent } from '../../bookmark/sorting/sorting.component';
 import { ForumService } from '../services/forum.service';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { ForumPostsForFeed } from '../models/forum-posts-for-feed.model';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-feed',
-  imports: [CategorySelectorComponent, MostPopularCommunitiesComponent, LastVisitedCommunitiesComponent, CommunitiesForFeedComponent, ForumPostsForFeedComponent, SortingComponent],
+  imports: [CategorySelectorComponent, RouterModule, MostPopularCommunitiesComponent, LastVisitedCommunitiesComponent, CommunitiesForFeedComponent, ForumPostsForFeedComponent, SortingComponent],
   standalone: true,
   templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.css'] ,
-  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
-})
+  styleUrls: ['./feed.component.css']})
 export class FeedComponent implements OnInit{
   posts$?: Observable<ForumPostsForFeed[]>;
   private sorting$= new BehaviorSubject<string | null>(null);

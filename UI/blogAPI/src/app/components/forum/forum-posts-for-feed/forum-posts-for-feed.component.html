@@ -1,13 +1,16 @@
 <div class="forum-posts-container d-flex flex-column">
-    <div *ngIf="postsObservable | async as posts">
-        <div *ngFor="let post of posts" class="forum-post">
+    <div *ngIf="postsObservable | async as posts; else noPosts">
+        <div *ngIf="posts.length === 0">
+            <ng-container *ngTemplateOutlet="noPosts"></ng-container>
+        </div>
+        <a [routerLink]="['/forum/post', post.id]" *ngFor="let post of posts" class="forum-post">
             <div class="d-flex flex-row community-date">
                 <div class="community-image">
                     <img [src]="post.communityImageUri.trim() !== ''? post.communityImageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
                 </div>
                 <p class="name">c/{{ post.communityName }}</p>
                 <p style="margin-left: 40px;">{{ post.date  | date}}</p>
-                <button class="delete" (click)="deletePost(post.id)"><i class="fa-solid fa-trash"></i></button>
+                <button class="delete" (click)="deletePost(post.id)"><i style="color:#FF4561;" class="fa-solid fa-trash"></i></button>
             </div>
             <div class="d-flex justify-content-between flex-column post-content">
                 <h5>{{ post.title }}</h5>
@@ -22,9 +25,14 @@
                     {{post.votes}}
                     <button style="margin-left:5px;" (click)="downVote(post.id)"><i class="fa-solid fa-thumbs-down"></i></button>
                 </div>
-                <a [routerLink]="['/forum', post.id]" ><i style="color: white;"class="fa-solid fa-comment"></i> {{post.commentsCount}}</a>
+                <a [routerLink]="['/forum/post', post.id]" class="commentb" ><i style="color: white;"class="fa-solid fa-comment"></i> {{post.commentsCount}}</a>
             </div>
-
-        </div>
+           <span class="line"></span>
+        </a>
     </div>
+    <ng-template #noPosts>
+        <div class="no-posts">
+            <h5 style="color: rgb(48, 48, 48); text-align:center;">No posts yet. Be the first one!</h5>
+        </div>
+    </ng-template>
 </div>

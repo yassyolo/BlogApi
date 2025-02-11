@@ -7,7 +7,7 @@
             <div class="community-image">
               <img [src]="community.imageUri.trim() !== ''? community.imageUri : 'https://www.yamch.yenepoya.edu.in/img/no-image.jpg'" alt="Post Image">
             </div>
-              <a [routerLink]="['/forum/community', community.id]" >c/{{ community.name }}</a>
+              <a (click)="onCommunityChange(community.id)" >c/{{ community.name }}</a>
           </div>
         </div>
     </div>

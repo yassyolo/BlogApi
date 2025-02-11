@@ -9,9 +9,8 @@ import { BlogDetails } from '../models/blog-details.model';
   standalone: true
 })
 export class AuthorBlogDetailsComponent {
-  @Input() blog?: BlogDetails; 
+  @Input() ownerDetails?: {ownerId: string, ownerName: string, ownerImageUri: string, ownerDescription: string}; 
   constructor() { }
   onAuthorClick(authorId: string | undefined): void {
-    console.log(`Author ${authorId} clicked`);
   }
 }

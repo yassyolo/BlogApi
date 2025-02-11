@@ -3,14 +3,15 @@ import { ForumService } from '../services/forum.service';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { ForumPostsForFeed } from '../models/forum-posts-for-feed.model';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-forum-posts-for-feed',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './forum-posts-for-feed.component.html',
   styleUrl: './forum-posts-for-feed.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true
 })
 export class ForumPostsForFeedComponent implements OnChanges, OnDestroy {
   private _posts$ = new BehaviorSubject<ForumPostsForFeed[]>([]);
@@ -54,7 +55,7 @@ export class ForumPostsForFeedComponent implements OnChanges, OnDestroy {
   }
 
   deletePost(postId: number): void {
-    this.forumService.deleteForumPost(this.id, postId).subscribe(() => {
+    this.forumService.deleteForumPost(postId).subscribe(() => {
       this._posts$.next(this._posts$.getValue().filter(post => post.id !== postId));
     });
   }

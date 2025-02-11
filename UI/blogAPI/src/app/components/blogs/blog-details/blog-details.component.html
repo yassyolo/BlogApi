@@ -40,8 +40,7 @@
 
     </div>
     <div class="author-side">
-          <app-author-blog-details [blog]="blog"></app-author-blog-details>
-          <app-top-blogs [authorId]="blog.authorId"></app-top-blogs>
+      <app-author-blog-details [ownerDetails]="{ ownerId: blog.authorId, ownerName: blog.authorName,  ownerImageUri: blog.authorImageUri, ownerDescription: blog.authorDescription}"></app-author-blog-details>          <app-top-blogs [authorId]="blog.authorId"></app-top-blogs>
         </div>
         </div>
   <app-bookmark-folder-select [blogId]="selectedBlogId" *ngIf="showBookmarkSelect" (close)="closeBookmarkSelect()"></app-bookmark-folder-select>
