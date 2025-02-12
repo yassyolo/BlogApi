@@ -7,6 +7,7 @@ namespace BlogAPI.Repositories.Interface
     {
         Task<bool> BlogWithIdExistsAsync(int id);
         Task<int> CreateAsync(string userId, CreateBlogPostRequestDto request);
+        Task DeleteBlogAsync(int id);
         Task<IEnumerable<Blog>> GetAllAsync(int? pageSize, int? currentPage, string? query = null, int? categoryId = null);
         Task<Blog> GetBlogWithIdAsync(int id);
         Task<IEnumerable<Tag>> GetTagsForBlogAsync(int id);

@@ -21,6 +21,7 @@ import { TagsService } from '../services/tags.service';
 
   export class EditBlogComponent implements OnInit {
     blogRequest: BlogRequest = {
+      id: 0,
       title: '',
       slug: '',
       content: '',
@@ -50,7 +51,7 @@ import { TagsService } from '../services/tags.service';
       this.categories$ = this.categoryService.getCategories();
       this.tags$ = this.tagsService.getTags();
   
-      const blogId = this.route.snapshot.paramMap.get('id');
+      const blogId = parseInt(this.route.snapshot.paramMap.get('id') || '0');
       if (blogId) {
         this.loadBlog(blogId); 
       }
@@ -64,7 +65,7 @@ import { TagsService } from '../services/tags.service';
       ],
     };
   
-    loadBlog(blogId: string): void {
+    loadBlog(blogId: number): void {
       this.blogService.getBlogBySlug(blogId).subscribe((blogData) => {
         this.blogRequest = { ...blogData };
         this.selectedTags = blogData.tagIds || [];

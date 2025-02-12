@@ -15,8 +15,8 @@ export class CommentsService {
     return this.hhtp.get<CommentDetails[]>(`${this.apiUrl}/${id}/comments`);
   }
 
-  postComment(blogId: number, comment: string): Observable<void> {
-   return this.hhtp.post<void>(`${this.apiUrl}/${blogId}/comments`, JSON.stringify(comment), {
+  postComment(blogId: number, comment: string): Observable<CommentDetails> {
+   return this.hhtp.post<CommentDetails>(`${this.apiUrl}/${blogId}/comments`, JSON.stringify(comment), {
       headers: { 'Content-Type': 'application/json' }
     });
   }

@@ -1,4 +1,5 @@
 export interface BlogRequest {
+    id: number;
     title: string;
     slug: string;
     content: any;

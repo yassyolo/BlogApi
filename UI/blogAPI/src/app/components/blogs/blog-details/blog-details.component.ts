@@ -2,66 +2,56 @@ import { Component, OnInit } from '@angular/core';
 import { BlogTocComponent } from '../blog-toc/blog-toc.component';
 import { BlogDetails } from '../models/blog-details.model';
 import { BlogService } from '../services/blog.service';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { BookmarkFolderSelectComponent } from '../../bookmark/bookmark-folder-select/bookmark-folder-select.component';
 import { TopBlogsComponent } from '../top-blogs/top-blogs.component';
 import { AuthorBlogDetailsComponent } from '../author-blog-details/author-blog-details.component';
 import { BlogCommentsComponent } from '../blog-comments/blog-comments.component';
+import { catchError, Observable, of, switchMap, tap } from 'rxjs';
+import { DeleteBlogComponent } from '../delete-blog/delete-blog.component';
 
 @Component({
   selector: 'app-blog-details',
-  imports: [BlogTocComponent, BlogCommentsComponent, CommonModule, BookmarkFolderSelectComponent, TopBlogsComponent, AuthorBlogDetailsComponent],
+  imports: [BlogTocComponent, BlogCommentsComponent,DeleteBlogComponent, CommonModule, BookmarkFolderSelectComponent, TopBlogsComponent, AuthorBlogDetailsComponent],
   templateUrl: './blog-details.component.html',
   styleUrl: './blog-details.component.css',
   standalone: true
 })
 export class BlogDetailsComponent implements OnInit {
- 
-  blog: BlogDetails = {
-        id: 0,
-        title: '',
-        slug: '',
-        content: '',
-        category: '',
-        tags: [],
-        images: [],
-        toc: [],
-        date: '',
-        authorId: '',
-        authorName: '',
-        authorDescription: '',
-        authorImageUri: '',
-        comments: [],
-        bookmarks: 0,
-  }
+ blog$?: Observable<BlogDetails>;
 
   selectedBlogId: number | null = null;
+  showDeleteContainer: boolean = false;
   showBookmarkSelect: boolean = false;
   id: number = 0;  
-  isLoading: boolean = true;
   errorMessage: string = '';
 
-  constructor(private blogService: BlogService, private route: ActivatedRoute) { 
-    this.id = +this.route.snapshot.paramMap.get('id')!;
-    }
+  constructor(private blogService: BlogService,
+     private route: ActivatedRoute, 
+     private router: Router) 
+    {}
 
 
-  ngOnInit(): void {
-    if (this.id) {
-      this.blogService.getBlogDetails(this.id).subscribe({
-        next: (response) => {
-          this.blog = response;
-          console.log(this.blog);
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.errorMessage = 'Failed to load blog details';
-          this.isLoading = false;
-        }
-      });
+    ngOnInit(): void {
+      this.blog$ = this.route.paramMap.pipe(
+        switchMap(params => {
+          const id = Number(params.get('id'));
+          if (!id) {
+            this.errorMessage = 'Invalid blog ID';
+            return of();
+          }
+          return this.blogService.getBlogDetails(id).pipe(
+            tap(blog => console.log('Blog details:', blog)),
+            catchError(error => {
+              this.errorMessage = 'Failed to load blog details';
+              return of(); 
+            })
+          );
+        })
+      );
+      
     }
-  }
 
   onBookmarkClick(bookId: number): void {
     this.selectedBlogId = bookId;
@@ -71,4 +61,19 @@ export class BlogDetailsComponent implements OnInit {
   closeBookmarkSelect(): void {
     this.showBookmarkSelect = false;
   }
+
+  onShowDeleteContainerClick(blogId: number): void{
+    this.showDeleteContainer = true;    
+  }
+
+  onEditClick(blogId: number): void{
+    this.router.navigate(['/edit', blogId]);
+  }
+
+  onHideDeleteContainerClick() : void{
+    this.showDeleteContainer = false;
+
+  }
 }
+
+

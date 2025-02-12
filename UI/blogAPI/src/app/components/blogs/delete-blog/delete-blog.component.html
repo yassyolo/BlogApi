@@ -1,11 +1,19 @@
 <div class="delete-blog-container">
-    <h2>Are you sure you want to delete this blog?</h2>
+    <h3>Are you sure you want to delete this blog?</h3>
+    <div *ngIf="blogForDelete$ | async as blog">
+      <p>{{blog.title}}</p>
+      <div class="d-flex flex-row align-items-center" style="align-items: center; text-align:center; margin-left: 270px;">
+        <p>{{blog.commentsCount}} <i class="fa-solid fa-comment"></i></p>
+        <p>{{blog.bookmarks}} <i class="fa-solid fa-bookmark"></i></p>
+        <p>{{blog.views}} <i class="fa-solid fa-eye"></i></p>
+      </div>
+    </div>
   
     <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
   
-    <div class="action-buttons">
-      <button class="btn btn-danger" (click)="deleteBlog()">Yes, Delete</button>
-      <button class="btn btn-secondary" (click)="cancelDeletion()">Cancel</button>
+    <div class="action-buttons gap-5">
+      <button class="btn delete" (click)="deleteBlog()">Yes, Delete</button>
+      <button class="btn cancel" (click)="cancelDeletion()">Cancel</button>
     </div>
   </div>
   

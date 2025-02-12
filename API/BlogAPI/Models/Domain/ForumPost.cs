@@ -20,7 +20,7 @@ namespace BlogAPI.Models.Domain
         public string Content { get; set; } = string.Empty;
 
         [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         [Comment("Community identifier")]
         public int ForumCommunityId { get; set; }

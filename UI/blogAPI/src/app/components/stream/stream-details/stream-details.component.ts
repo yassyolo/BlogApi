@@ -6,6 +6,7 @@ import { StreamService } from '../service/stream.service';
 import { Observable, switchMap } from 'rxjs';
 import { StreamDetails } from '../models/stream-details.model';
 import { ActivatedRoute } from '@angular/router';
+import { BroadcastService } from '../service/broadcast.service';
 
 @Component({
   selector: 'app-stream-details',
@@ -16,7 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 export class StreamDetailsComponent implements OnInit{
   stream$?: Observable<StreamDetails>;
   streamId?: number;
-  constructor(private streamService: StreamService, private route: ActivatedRoute) { }
+  isBroadcaster: boolean = false;
+  constructor(private streamService: StreamService, private route: ActivatedRoute, private broadcastService: BroadcastService) { }
 
   ngOnInit(): void {
     this.stream$ = this.route.params.pipe(switchMap(params => {
@@ -36,6 +38,10 @@ export class StreamDetailsComponent implements OnInit{
   leaveStream(streamId: number) : void{
     this.streamService.leaveStream(streamId);
   }
+
+
+
+
 
 
 }

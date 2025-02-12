@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BlogService } from '../services/blog.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, of, switchMap } from 'rxjs';
 import { TopBlogs } from '../models/top-blogs.model';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -13,13 +13,32 @@ import { RouterLink } from '@angular/router';
   styleUrl: './top-blogs.component.css'
 })
 export class TopBlogsComponent implements OnInit {
-  @Input() authorId: string | undefined;
+  private authorIdSubject = new BehaviorSubject<string | undefined>(undefined);
+  @Input() set authorId(value: string | undefined) {
+    this.authorIdSubject.next(value);
+  }
+  
   topBlogs$?: Observable<TopBlogs[]>;
 
   constructor(private blogService: BlogService) {}
 
   ngOnInit(): void {
-    this.topBlogs$ = this.blogService.getTopBlogs(this.authorId);
+    this.topBlogs$ = this.authorIdSubject.pipe(
+      switchMap((authorId) => {
+        if (!authorId) {
+          return this.blogService.getTopBlogs().pipe(
+            catchError((error) => {
+              console.error('Error fetching top blogs (no authorId):', error);
+              return of([]); 
+            })
+          );
+        }
+        return this.blogService.getTopBlogs(authorId).pipe(
+          catchError((error) => {
+            console.error(`Error fetching top blogs for author ${authorId}:`, error);
+            return of([]); 
+          })
+        );
+      }))
   }
-
-}
+}  

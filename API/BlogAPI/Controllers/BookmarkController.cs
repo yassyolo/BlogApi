@@ -117,8 +117,8 @@ namespace BlogAPI.Controllers
         }
 
         [HttpPost]
-        [Route("{folderId}")]
-        public async Task<IActionResult> GetBookmarksInFolder(int folderId, [FromForm] string? query, [FromForm] string? sorting)
+        [Route("{id}")]
+        public async Task<IActionResult> GetBookmarksInFolder(int id, [FromForm] string? query, [FromForm] string? sorting)
         {
             var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
             /*var userId = User.GetUserId();
@@ -127,7 +127,7 @@ namespace BlogAPI.Controllers
                 return NotFound();
             }*/
 
-            var bookmarkFolder = await bookmarkRepository.GetFolderByIdAsync(folderId);
+            var bookmarkFolder = await bookmarkRepository.GetFolderByIdAsync(id);
             if(bookmarkFolder == null)
             {
                 return NotFound();
@@ -137,7 +137,7 @@ namespace BlogAPI.Controllers
             {
                 return Unauthorized();
             }*/
-            var bookmarkFolderContents = await bookmarkRepository.GetFolderContentsByIdAsync(folderId, query, sorting);
+            var bookmarkFolderContents = await bookmarkRepository.GetFolderContentsByIdAsync(id, query, sorting);
 
             var response = bookmarkFolder.Bookmarks.Select(x => new BookmarkDto()
             {
@@ -163,10 +163,14 @@ namespace BlogAPI.Controllers
             return Ok(response);
         }
 
-        [HttpDelete]
-        [Route("{folderId}")]
-        public async Task<IActionResult> DeleteFolder(int folderId)
+        [HttpGet]
+        [Route("folder/{id}/delete")]
+        public async Task<IActionResult> GettBookmarkFolderForDelete(int id)
         {
+            if(await bookmarkRepository.BookmarkFolderExistsAsync(id) == false)
+            {
+                return NotFound();
+            }
             var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
             /*var userId = User.GetUserId();
              *if(await tokenRepository.UserWithUserIdExistsAsync(userId) == false)
@@ -174,18 +178,45 @@ namespace BlogAPI.Controllers
              *  return NotFound();
              *}*/
 
-            var bookmarkFolder = await bookmarkRepository.GetFolderByIdAsync(folderId);
-            if(bookmarkFolder == null)
+            /*if(await bookmarkRepository.UserOwnsFolderAsync(userId, id) == false)
+            {
+                return Unauthorized();
+            }*/
+
+            var bookmarkFolder = await bookmarkRepository.GetFolderByIdAsync(id);
+            var response = new BookmarkFolderIndexDto()
+            {
+                Id = bookmarkFolder.Id,
+                Name = bookmarkFolder.Name,
+                BookmarkCount = bookmarkFolder.Bookmarks.Count,
+            };
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("folder/{id}")]
+        public async Task<IActionResult> DeleteFolder(int id)
+        {
+            if (await bookmarkRepository.BookmarkFolderExistsAsync(id) == false)
             {
                 return NotFound();
             }
+            /*var userId = "67b3b3b3-3b3b-3b3b-3b3b-3b3b3b3b3b3b";
+            /*var userId = User.GetUserId();
+             *if(await tokenRepository.UserWithUserIdExistsAsync(userId) == false)
+             *{
+             *  return NotFound();
+             *}
 
-            if(bookmarkFolder.UserId != userId)
+            if (await bookmarkRepository.UserOwnsFolderAsync(userId, id) == false)
             {
                 return Unauthorized();
-            }
+            }*/
 
-            await bookmarkRepository.DeleteFolderAsync(folderId);
+            var bookmarkFolder = await bookmarkRepository.GetFolderByIdAsync(id);
+
+
+            await bookmarkRepository.DeleteFolderAsync(id);
 
             return Ok();
         }

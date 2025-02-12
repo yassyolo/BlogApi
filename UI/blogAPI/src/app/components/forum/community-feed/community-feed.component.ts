@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { CategorySelectorComponent } from '../../blogs/category-selector/category-selector.component';
 import { SortingComponent } from '../../bookmark/sorting/sorting.component';
 import { ForumService } from '../services/forum.service';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap } from 'rxjs';
 import { ForumPostsForFeed } from '../models/forum-posts-for-feed.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ForumCommunity } from '../models/forum-community.model';
@@ -21,16 +21,18 @@ export class CommunityFeedComponent implements OnInit{
   @Output() communityDetails$?: Observable<ForumCommunity>;
   private sorting$ = new BehaviorSubject<string | null>(null);
   posts$?: Observable<ForumPostsForFeed[]>;
-  forumCommunityId?: number;
 
   constructor(private forumService: ForumService, private route: ActivatedRoute, private router: Router) {}
   ngOnInit(): void {
     this.posts$ = this.route.paramMap.pipe(
       switchMap(params => {
         const forumId = parseInt(params.get('id') || '', 10);
-        this.forumCommunityId = forumId;
-        this.communityDetails$ = this.forumService.getForumCommunity(forumId);
-  
+        this.communityDetails$ = this.forumService.getForumCommunity(forumId).pipe(
+          catchError(error => {
+            console.error('Error fetching community details:', error);
+            return [];
+          })
+        );
         return this.sorting$.pipe(
           switchMap(sorting => this.forumService.getFeed(sorting, forumId, null))
         );

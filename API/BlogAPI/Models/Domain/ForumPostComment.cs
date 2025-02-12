@@ -17,7 +17,7 @@ namespace BlogAPI.Models.Domain
         public string Content { get; set; } = string.Empty;
 
         [Comment("Date and time the comment was created")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         [Comment("Forum post identifier")]
         public int ForumPostId { get; set; }

@@ -1,48 +1,90 @@
 <div class="blog-details-container">
-    <div *ngIf="blog">
-        <div class="toc-images-content-top-blogs">
-        <app-blog-toc [blogToc]="blog.toc" [id]="blog.id"></app-blog-toc>
-        <div class="images-blog-content">
+  <div *ngIf="blog$ | async as blog">
+    <div class="toc-images-content-top-blogs">
+      <app-blog-toc [blogToc]="blog.toc" [id]="blog.id"></app-blog-toc>
+      <div class="images-blog-content">
         <div id="carouselExampleAutoplay" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-            <div class="carousel-inner">
-              <div class="carousel-item" *ngFor="let img of blog.images; let i = index" [class.active]="i === 0">
-                <img [src]="img" class="d-block w-100" alt="Image {{ i + 1 }}">
-              </div>
+          <div class="carousel-inner">
+            <div
+              class="carousel-item"
+              *ngFor="let img of blog.images; let i = index"
+              [class.active]="i === 0"
+            >
+              <img [src]="img" class="d-block w-100" alt="Image {{ i + 1 }}" />
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplay" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplay" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>                   
-       
-        <div class="blog-details">
-
-           <div *ngIf="isLoading">Loading...</div>
-           <div *ngIf="errorMessage">{{ errorMessage }}</div>
-<div class="d-flex justify-content-between blog-meta">
-    <p> {{ blog.date | date:'mediumDate' }}</p>
-    <p> {{blog.bookmarks}} bookmarks</p>
-    <button style="background: none; background-color: transparent; outline:none;"  (click)="onBookmarkClick(blog.id)"><i class="fa-solid fa-bookmark" style="color: #FF4561; background:none;"></i></button>
-</div>
-          
-           <h1>{{ blog.title }}</h1>        
-          <div [innerHTML]="blog.content" class="blog-content"></div>
-
-          <div class="tags">
-          <span *ngFor="let tag of blog.tags" class="tag">#{{ tag.trim() }}</span>
           </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleAutoplay"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleAutoplay"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
-        <app-blog-comments [comments]="blog.comments" ></app-blog-comments>
 
+        <div class="blog-details">
+          <div *ngIf="errorMessage">{{ errorMessage }}</div>
+          <div class="d-flex justify-content-between blog-meta">
+            <p>{{ blog.date | date : "mediumDate" }}</p>
+            <p>{{ blog.bookmarks }} bookmarks</p>
+            <button
+              style=" background: none; background-color: transparent; outline: none;" (click)="onBookmarkClick(blog.id)"
+            >
+              <i
+                class="fa-solid fa-bookmark"
+                style="color: #ff4561; background: none"
+              ></i>
+            </button>
+          </div>
+          <div class="tags">
+            <span *ngFor="let tag of blog.tags" class="tag"
+              >#{{ tag.trim() }}</span
+            >
+          </div>
+          <div class="d-flex flex-row">
+            <div class="buttons">
+              <h1>{{ blog.title }}</h1>
+              <button class="btn edit" (click)="onEditClick(blog.id)">
+                Edit
+              </button>
+              <button class="btn delete" (click)="onShowDeleteContainerClick(blog.id)">
+                <i style="color: #ff4561" class="fa-solid fa-trash"></i>
+              </button>
+            </div>
+          </div>
+          <div [innerHTML]="blog.content" class="blog-content"></div>
+        </div>
+        <app-blog-comments [comments]="blog.comments"></app-blog-comments>
+      </div>
+      <div class="author-side">
+        <app-author-blog-details
+          [ownerDetails]="{
+            ownerId: blog.authorId,
+            ownerName: blog.authorName,
+            ownerImageUri: blog.authorImageUri,
+            ownerDescription: blog.authorDescription
+          }"
+        ></app-author-blog-details>
+        <app-top-blogs [authorId]="blog?.authorId"></app-top-blogs>
+      </div>
     </div>
-    <div class="author-side">
-      <app-author-blog-details [ownerDetails]="{ ownerId: blog.authorId, ownerName: blog.authorName,  ownerImageUri: blog.authorImageUri, ownerDescription: blog.authorDescription}"></app-author-blog-details>          <app-top-blogs [authorId]="blog.authorId"></app-top-blogs>
-        </div>
-        </div>
-  <app-bookmark-folder-select [blogId]="selectedBlogId" *ngIf="showBookmarkSelect" (close)="closeBookmarkSelect()"></app-bookmark-folder-select>
-</div>
+    <app-bookmark-folder-select
+      [blogId]="selectedBlogId"
+      *ngIf="showBookmarkSelect"
+      (close)="closeBookmarkSelect()"
+    ></app-bookmark-folder-select>
+
+    <app-delete-blog *ngIf="showDeleteContainer" (close)="onHideDeleteContainerClick()"></app-delete-blog>
+  </div>
 </div>

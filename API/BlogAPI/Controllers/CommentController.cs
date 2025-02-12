@@ -51,9 +51,19 @@ namespace BlogAPI.Controllers
                 return NotFound();
             }*/
 
-             await commentRepository.CreateAsync(userId, blogId, comment);
+             var newComment = await commentRepository.CreateAsync(userId, blogId, comment);
+            var response = new CommentDetailsDto()
+            {
+                Id = newComment.Id,
+                Date = newComment.CreatedDate.ToString("dd-MM-yyyy"),
+                AuthorId = newComment.UserId,
+                AuthorName = newComment.User.FirstName + " " + newComment.User.LastName,
+                AuthorImageUri = newComment.User.ProfileImage?.Url ?? string.Empty,
+                Content = newComment.Content,
+                Likes = newComment.Likes
+            };
 
-            return Ok();
+            return Ok(response);
         }
 
         [HttpPut]

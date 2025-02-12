@@ -6,6 +6,7 @@ import { PagedResponse } from '../models/paged-response.model';
 import { BlogRequest } from '../models/blog-request.model';
 import { BlogDetails } from '../models/blog-details.model';
 import { TopBlogs } from '../models/top-blogs.model';
+import { BlogForDelete } from '../models/blog-for-delete.model';
 
 @Injectable({
   providedIn: 'root'
@@ -58,28 +59,32 @@ return this.http.get<PagedResponse>(`${this.apiUrl}/all`, { params });
 
   }
 
-  getBlogBySlug(slug: string) : Observable<BlogRequest>{
-    return this.http.get<BlogRequest>(`${this.apiUrl}/${slug}`);
+  getBlogBySlug(id: number) : Observable<BlogRequest>{
+    return this.http.get<BlogRequest>(`${this.apiUrl}/${id}`);
   }
 
   updateBlog(blog: BlogRequest) : Observable<any>{
     return this.http.put(`${this.apiUrl}/${blog.slug}`, blog);
   }
 
-  deleteBlog(slug: string) : Observable<any>{
-    return this.http.delete(`${this.apiUrl}/${slug}`);
-  }
-
   getBlogDetails(id: number) : Observable<BlogDetails>{
     return this.http.get<BlogDetails>(`${this.apiUrl}/${id}`);
   }
 
-  getTopBlogs(authorId?: string | undefined) : Observable<TopBlogs[]>{
+  getTopBlogs(authorId?: string): Observable<TopBlogs[]> {
     let params = new HttpParams();
-    if(authorId){
-      params.set('authorId', authorId);
+    if (authorId) {
+      params = params.set('authorId', authorId);
     }
+  
+    return this.http.get<TopBlogs[]>(`${this.apiUrl}/top-blogs`, { params });
+  }
 
-    return this.http.get<TopBlogs[]>(`${this.apiUrl}/top-blogs`, {params});
+  getBlogForDelete(id: number) : Observable<BlogForDelete>{ 
+    return this.http.get<BlogForDelete>(`${this.apiUrl}/${id}/delete`);
+  }
+
+  deleteBlog(id: number) : Observable<any>{
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }

@@ -19,7 +19,7 @@
       <div class="d-flex d-row">
         <div class="d-flex-d-column" style="background-color: #f8f8f8; min-width: 800px;    border-radius: 10px;">
            <app-forum-posts-for-feed [posts$]="posts$" *ngIf="showPosts"></app-forum-posts-for-feed>
-           <app-communities-with-category-id [categoryId]="categoryId!" *ngIf="!showPosts"></app-communities-with-category-id>
+           <app-communities-with-category-id [categoryId]="(categoryId$ | async)!" *ngIf="!showPosts"></app-communities-with-category-id>
         </div>
      </div>
     </div>

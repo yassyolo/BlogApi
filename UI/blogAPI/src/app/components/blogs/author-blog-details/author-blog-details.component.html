@@ -5,7 +5,8 @@
         </div>
         <div class="author-details">
             <h5>{{ ownerDetails?.ownerName }}</h5>
-            <p>{{ ownerDetails?.ownerDescription }}</p>
+            <p *ngIf="ownerDetails?.ownerDescription">{{ ownerDetails?.ownerDescription }}</p>
+            <p *ngIf="ownerDetails?.ownerDescription === ''">No description yet</p>
         </div>
 
     </div>

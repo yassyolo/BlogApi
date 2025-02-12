@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BookmarkService } from '../services/bookmark.service';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BookmarkListSelect } from '../models/bookmark-list-select.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -15,8 +15,16 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './bookmark-folder-select.component.css'
 })
 export class BookmarkFolderSelectComponent implements OnInit {
-  @Input() blogId: number | null = null;
-  @Input() authorId: string | null = null;
+  private blogIdSubject = new BehaviorSubject<number | null>(null);
+  @Input() set blogId (value: number | null){
+    this.blogIdSubject.next(value);
+  }
+
+  private authorIdSubject = new BehaviorSubject<string | null>(null);
+  @Input() set authorId(value: string | null){
+    this.authorIdSubject.next(value);
+  }
+
   @Output() close = new EventEmitter<void>();
 
   bookmarksList$?: Observable<BookmarkListSelect[]>;
@@ -24,8 +32,7 @@ export class BookmarkFolderSelectComponent implements OnInit {
   isCreatingNewFolder: boolean = false;
   newFolderName: string = '';
 
-  constructor(private bookmarkService: BookmarkService, private router: Router) {
-    console.log('BookmarkFolderSelectComponent created');
+  constructor(private bookmarkService: BookmarkService) {
    }
 
   ngOnInit(): void {
@@ -33,10 +40,13 @@ export class BookmarkFolderSelectComponent implements OnInit {
   }
 
   onFolderSelect(folderId: number): void {
-    const addToExistingFolderRequest: AddToExistingFolder = { blogId: this.blogId, authorId: this.authorId, folderId: folderId };
-    this.bookmarkService.addToExistingFolder(addToExistingFolderRequest).subscribe({
+    const addToExistingFolderRequest: AddToExistingFolder = {
+      blogId: this.blogIdSubject.getValue(),
+      authorId: this.authorIdSubject.getValue(),
+      folderId: folderId
+    };
+      this.bookmarkService.addToExistingFolder(addToExistingFolderRequest).subscribe({
       next: () => {
-        //this.router.navigate(['/bookmarks']);
         this.close.emit();
       },
       error: (err) => {
@@ -47,12 +57,17 @@ export class BookmarkFolderSelectComponent implements OnInit {
   onNewFolderClick(): void {
     this.isCreatingNewFolder = true;
   }
+
   onCreateFolderClick(): void {
     if (this.newFolderName) {
-      const createNewFolderRequest: CreateNewFolder = { name: this.newFolderName, blogId: this.blogId, authorId: this.authorId };
+      const createNewFolderRequest: CreateNewFolder = {
+        name: this.newFolderName,
+        blogId: this.blogIdSubject.getValue(),
+        authorId: this.authorIdSubject.getValue()
+      };
+      
       this.bookmarkService.createNewFolder(createNewFolderRequest).subscribe({
         next: () => {
-          //this.router.navigate(['/bookmarks']);
           this.close.emit();
         },
         error: (err) => {

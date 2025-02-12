@@ -1,6 +1,7 @@
 ﻿using BlogAPI.Extensions;
 using BlogAPI.Models.Domain;
 using BlogAPI.Models.DTO;
+using BlogAPI.Models.DTO.BlogPost;
 using BlogAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -171,6 +172,43 @@ namespace BlogAPI.Controllers
             response.Tags = tags.Select(x => x.Name).ToList();
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("{id}/delete")]
+        public async Task<IActionResult> GetBlogForDelete(int id)
+        {
+            if(await blogPostRepository.BlogWithIdExistsAsync(id)== false)
+            {
+                return NotFound();
+            }
+
+            var blog = await blogPostRepository.GetBlogWithIdAsync(id);
+
+            var response = new BlogForDeleteDto
+            {
+                Id = blog.Id,
+                Title = blog.Title,
+                CommentsCount = blog.Comments.Count(),
+                Views = blog.ViewCount,
+                Bookmarks = blog.BookmarkCount
+            };           
+
+            return Ok(response);
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            if(await blogPostRepository.BlogWithIdExistsAsync(id)== false)
+            {
+                return NotFound();
+            }
+
+            await blogPostRepository.DeleteBlogAsync(id);
+
+            return Ok();
         }
     }
 }

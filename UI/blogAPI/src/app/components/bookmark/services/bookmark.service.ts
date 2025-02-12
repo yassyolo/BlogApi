@@ -38,7 +38,7 @@ export class BookmarkService {
     return this.http.post<BookmarkFolderList[]>(`${this.apiUrl}/all-folders`, formData);
   }
 
-  getBookmarksByFolderId(folderId: number | undefined, query?: string, sorting?: string) : Observable<BookmarkIndex[]>{ 
+  getBookmarksByFolderId(id: number | undefined, query?: string, sorting?: string) : Observable<BookmarkIndex[]>{ 
     let formData = new FormData();
     if(query){
       formData.append('query', query);
@@ -46,10 +46,14 @@ export class BookmarkService {
     if(sorting){
       formData.append('sorting', sorting);
     }
-    return this.http.post<BookmarkIndex[]>(`${this.apiUrl}/${folderId}`, formData);
+    return this.http.post<BookmarkIndex[]>(`${this.apiUrl}/folder/${id}`, formData);
   }
 
-  deleteBookmarkFolder(folderId: number) : Observable<any>{
-    return this.http.delete(`${this.apiUrl}/folder/${folderId}`);
+  getBookmarkFolderForDelete(id: number) : Observable<BookmarkFolderList>{
+    return this.http.get<BookmarkFolderList>(`${this.apiUrl}/folder/${id}/delete`);
+  }
+
+  deleteBookmarkFolder(id: number) : Observable<any>{
+    return this.http.delete(`${this.apiUrl}/folder/${id}`);
   }
 }

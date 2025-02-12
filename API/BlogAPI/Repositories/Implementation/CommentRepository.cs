@@ -23,7 +23,7 @@ namespace BlogAPI.Repositories.Implementation
             return await context.Comments.AnyAsync(c => c.BlogPostId == blogId && c.Id == commentId);
         }
 
-        public async Task CreateAsync(string userId, int blogId, string comment)
+        public async Task<Comment> CreateAsync(string userId, int blogId, string comment)
         {
             var userComments = await context.Comments.Where(c => c.UserId == userId).ToListAsync();
             switch(userComments.Count)
@@ -52,6 +52,8 @@ namespace BlogAPI.Repositories.Implementation
             };
             await context.Comments.AddAsync(newComment);
             await context.SaveChangesAsync();
+
+           return await context.Comments.Include(c => c.User).ThenInclude(x => x.ProfileImage).FirstOrDefaultAsync(c => c.Id == newComment.Id);
         }
 
         public async Task<IEnumerable<Comment>> GetAllAsync(int blogId)

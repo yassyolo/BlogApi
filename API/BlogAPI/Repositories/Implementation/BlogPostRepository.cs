@@ -92,7 +92,14 @@ namespace BlogAPI.Repositories.Implementation
 
             return blog.Id;
         }
-        
+
+        public async Task DeleteBlogAsync(int id)
+        {
+            var blog = await context.BlogPosts.FindAsync(id);
+            context.BlogPosts.Remove(blog);
+            await context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<Blog>> GetAllAsync(int? pageSize, int? currentPage, string? query = null, int? categoryId = null)
         {
             var queryable = context.BlogPosts.AsQueryable();

@@ -1,17 +1,21 @@
-<div *ngIf="blogToc?.length" class="toc-container">
-    <div class="header-text">
+<div *ngIf="(blogToc$ | async)!.length > 0; else noToc" class="toc-container" >
+  <div class="header-text">
     <h5><i class="fa-regular fa-star"></i>Table of Contents</h5>
     <ul>
-      <ng-container *ngFor="let item of blogToc; let idx = index">
-        <li>          <a [href]="'/blogs/' + id + '/#' + item.anchor">{{ idx + 1 }}. {{ item.title }}</a>
+      <ng-container *ngFor="let item of (blogToc$ | async); let idx = index">
+        <li>
+          <a [routerLink]="['/blogs', id]" [fragment]="item.anchor">{{ idx + 1 }}. {{ item.title }}</a>
         </li>
       </ng-container>
     </ul>
-</div>
   </div>
-  
-  <div *ngIf="!blogToc?.length" class="toc-container">
-    <h3>Table of Contents</h3>
+</div>
+
+<ng-template #noToc>
+  <div class="toc-container">
+    <div class="header-text">
+    <h5><i class="fa-regular fa-star"></i>Table of Contents</h5>
     <p>No table of contents found</p>
   </div>
-  
+  </div>
+</ng-template>

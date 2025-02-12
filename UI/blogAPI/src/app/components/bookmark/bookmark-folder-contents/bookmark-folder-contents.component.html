@@ -1,40 +1,37 @@
 <div class="bookmark-folder-details">
-  
-    <div class="d-flex" style="margin-bottom: 30px;">
-           <div class="title-subtitle" style="flex-direction: column;"> 
-                <div class="d-flex justify-content-between" style="flex-direction: row;">
-                   <h2 class="section-title">{{folderName}} <i style="color:#FF4561; margin-left: 10px;"class="fa-regular fa-folder"></i></h2>
-                   <p class="date" style="width: 80px;">Created on: {{creationDate | date}}</p>
-                </div>
-                 <p class="section-subtitle">Read your favourite blogs and authors.</p>
-            </div>
-       
-       <div class="d-flex justify-content-between search-sort-container">
-        <app-search (searchQueryChanged)="onSearchQueryChanged($event)"></app-search>
-        <app-sorting (sortingChanged)="onSortingChanged($event)"></app-sorting>
-       </div>
-    
+  <div class="d-flex" style="margin-bottom: 30px;">
+    <div class="title-subtitle" style="flex-direction: column;">
+      <div class="d-flex justify-content-between" style="flex-direction: row;">
+        <h2 class="section-title">{{folderName}} <i style="color:#FF4561; margin-left: 10px;" class="fa-regular fa-folder"></i></h2>
+        <p class="date" style="width: 140px; margin-left: 30px;">Created on: {{creationDate | date}}</p>
+        <p class="date" style="width: 50px; margin-left: 20px;">{{(bookmarks$ | async)?.length}} <i style="color:#FF4561; margin-left: 10px;" class="fa-solid fa-bookmark"></i></p>
+      </div>
+      <p class="section-subtitle">Read your favourite blogs and authors.</p>
     </div>
 
-    
-    <div class="bookmarks-list">
-        <div *ngIf="bookmarks$ | async as bookmarks">
-          <div *ngFor="let bookmark of bookmarks" class="bookmark-item">
-            <div *ngIf="bookmark.blogId" (click)="onBlogClick(bookmark.blogId)">
-              <img [src]="bookmark.blogImageUrl" alt="Blog Image" class="blog-image">
-              <div class class="blog-content">
-                 <h5>{{ bookmark.blogTitle }}</h5>
-                 <p [innerHTML]="bookmark.blogContent ? (bookmark.blogContent | truncateString: 300) : ''" class="content"></p>
-                </div>
-            </div>
-            <div *ngIf="bookmark.authorId" class="author-details" (click)="onAuthorClick(bookmark.authorId)">
-              <img [src]="bookmark.authorImageUrl" alt="Author Image">
-              <h5>{{ bookmark.authorName }} / {{bookmark.authorUsername}}</h5>
-              <p>{{ bookmark.authorDescription }}</p>
-              <p>Bookmarks: {{ bookmark.authorBookmarksCount }}</p>
-            </div>
-          </div>
-      
+    <div class="d-flex justify-content-between search-sort-container">
+      <app-search (searchQueryChanged)="onSearchQueryChanged($event)"></app-search>
+      <app-sorting (sortingChanged)="onSortingChanged($event)"></app-sorting>
     </div>
   </div>
-  
+
+  <div class="bookmarks-list">
+    <div *ngIf="bookmarks$ | async as bookmarks">
+      <div *ngFor="let bookmark of bookmarks" class="bookmark-item">
+        <div *ngIf="bookmark.blogId" (click)="onBlogClick(bookmark.blogId)" >
+          <img [src]="bookmark.blogImageUrl" alt="Blog Image" class="blog-image">
+          <div class="blog-content">
+            <h5>{{ bookmark.blogTitle }}</h5>
+            <p [innerHTML]="bookmark.blogContent ? (bookmark.blogContent | truncateString: 200) : ''" class="content"></p>
+          </div>
+        </div>
+        <div *ngIf="bookmark.authorId" class="author-details" (click)="onAuthorClick(bookmark.authorId)"  >
+          <img [src]="bookmark.authorImageUrl" alt="Author Image">
+          <h5>{{ bookmark.authorName }} / {{ bookmark.authorUsername }}</h5>
+          <p>{{ bookmark.authorDescription }}</p>
+          <p>Bookmarks: {{ bookmark.authorBookmarksCount }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,36 +1,45 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, combineLatest, Observable, switchMap } from 'rxjs';
 import { BookmarkFolderList } from '../models/bookmark-folder-list.model';
 import { BookmarkService } from '../services/bookmark.service';
 import { CommonModule } from '@angular/common';
 import { SearchComponent } from '../../blogs/search/search.component';
 import { SortingComponent } from '../sorting/sorting.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-boomark-folder-list',
-  imports: [CommonModule, SearchComponent, SortingComponent],
+  imports: [CommonModule, SearchComponent, SortingComponent, RouterLink],
   standalone: true,
   templateUrl: './boomark-folder-list.component.html',
   styleUrl: './boomark-folder-list.component.css'
 })
 export class BoomarkFolderListComponent implements OnInit {
+  bookmarkForDelete$?: Observable<BookmarkFolderList>;
+  showDeleteContainer: boolean = false;
   bookmarkFolderList$?: Observable<BookmarkFolderList[]>;
-  query: string = '';
-  sorting: string = '';
+  querySubject = new BehaviorSubject<string>('');
+  sortingSubject = new BehaviorSubject<string>('');
   constructor(private bookmarkService: BookmarkService, private router: Router) { }
 
   ngOnInit(): void {
-    this.bookmarkFolderList$ = this.bookmarkService.getAllBookmarkFolders(this.query, this.sorting);
+    this.bookmarkFolderList$ = combineLatest([this.querySubject, this.sortingSubject]).pipe(
+      switchMap(([query, sorting]) => {
+        return this.bookmarkService.getAllBookmarkFolders(query, sorting).pipe(
+          catchError((error) => {
+            console.error('Error fetching bookmark folders:', error);
+            return []; 
+          })
+        );
+      })
+    );
   }
 
   onSearchQueryChanged(query: string) : void{
-    this.query = query;
-    this.bookmarkFolderList$ = this.bookmarkService.getAllBookmarkFolders(this.query, this.sorting);
+    this.querySubject.next(query);
   }
   onSortingChanged(sorting: string) : void{
-    this.sorting = sorting;
-    this.bookmarkFolderList$ = this.bookmarkService.getAllBookmarkFolders(this.query, this.sorting);
+    this.sortingSubject.next(sorting);
   }
 
   onFolderSelect(folderId: number) : void{
@@ -44,15 +53,25 @@ export class BoomarkFolderListComponent implements OnInit {
     });
   }
 
-  onFolderDelete(folderId: number) : void{
+  onShowDeleteClick(folderId: number) : void{
+    this.bookmarkForDelete$ = this.bookmarkService.getBookmarkFolderForDelete(folderId);
+
+    this.showDeleteContainer = true;
+  }
+
+  OnDeleteFolder(folderId: number) : void{
     this.bookmarkService.deleteBookmarkFolder(folderId).subscribe({
       next: () => {
-        this.bookmarkFolderList$ = this.bookmarkService.getAllBookmarkFolders(this.query, this.sorting);
+        this.bookmarkFolderList$ = this.bookmarkService.getAllBookmarkFolders(this.querySubject.value, this.sortingSubject.value);
       },
       error: (error) => {
         console.log(error);
       }
     });
+  }
+
+  cancelDeletion() : void{
+    this.showDeleteContainer = false;
   }
 
 }

@@ -1,4 +1,6 @@
-﻿namespace BlogAPI.Models.DTO
+﻿using BlogAPI.Models.DTO.BlogPost;
+
+namespace BlogAPI.Models.DTO
 {
     public class PagedResponseDto
     {

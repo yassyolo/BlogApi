@@ -33,6 +33,11 @@ namespace BlogAPI.Repositories.Implementation
             await context.SaveChangesAsync();
         }
 
+        public async Task<bool> BookmarkFolderExistsAsync(int id)
+        {
+            return await context.BookmarkFolders.AnyAsync(x => x.Id == id);
+        }
+
         public async Task CreateFolderAsync(CreateFolderDto request, string userId)
         {
             var newFolder = new BookmarkFolder
@@ -176,6 +181,11 @@ namespace BlogAPI.Repositories.Implementation
                     await achievementRepository.IncrementUserAchievementsAsync(userId, FirstBookmark, Organizer, BookmarkMaster);
                     break;
             }
+        }
+
+        public async Task<bool> UserOwnsFolderAsync(string userId, int id)
+        {
+            return await context.BookmarkFolders.AnyAsync(x => x.UserId == userId && x.Id == id);
         }
     }
 }

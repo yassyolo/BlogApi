@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Images\" />
+    <Folder Include="Models\DTO\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, catchError, distinct, distinctUntilChanged, Observable, switchMap } from 'rxjs';
 import { MostPopularCommunities } from '../models/most-popular-communities.model';
 import { ForumService } from '../services/forum.service';
 import { CommonModule } from '@angular/common';
@@ -12,14 +12,27 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './communities-with-category-id.component.css'
 })
 export class CommunitiesWithCategoryIdComponent implements OnInit{
-  @Input() categoryId: number = 0;
-   communities$?: Observable<MostPopularCommunities[]>;
+  private categoryIdSubject = new BehaviorSubject<number>(0);
+  @Input() set categoryId(value : number){
+    this.categoryIdSubject.next(value);
+  }
+
+  communities$?: Observable<MostPopularCommunities[]>;
+
   constructor(private forumService: ForumService, private router: Router) { }
+
   ngOnInit(): void {
-    this.communities$ = this.forumService.getForumCommunitiesByCategory(this.categoryId);
+    this.communities$ = this.categoryIdSubject.pipe(
+      distinctUntilChanged(),
+      switchMap(categoryId => this.forumService.getForumCommunitiesByCategory(categoryId).pipe(
+        catchError((error) => {
+          console.error(`Error fetching communities for category ${categoryId}:`, error);
+          return [];
+        })
+      ))
+    );
   }
   
-
   onCommunityClick(forumId: number): void {
     this.router.navigate([`/forum/community/${forumId}`]);
   }

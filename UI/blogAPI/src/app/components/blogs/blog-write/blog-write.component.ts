@@ -20,6 +20,7 @@ import { CommonModule } from '@angular/common';
 })
 export class BlogWriteComponent implements OnInit {
   blogRequest: BlogRequest = {
+    id: 0,
     title: '',
     slug: '',
     content: '',

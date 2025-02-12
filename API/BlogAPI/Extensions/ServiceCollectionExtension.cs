@@ -31,6 +31,7 @@ namespace BlogAPI.Extensions
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IAchievementRepository, AchievementRepository>();
             services.AddScoped<IForumRepository, ForumRepository>();
+            services.AddScoped<IStreamRepository, StreamRepository>();
         }
 
         public static void AddIdentity(this IServiceCollection services)

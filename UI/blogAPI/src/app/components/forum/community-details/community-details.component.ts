@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ForumService } from '../services/forum.service';
-import { Observable } from 'rxjs';
+import { catchError, distinctUntilChanged, Observable, of, switchMap } from 'rxjs';
 import { ForumCommunity } from '../models/forum-community.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,10 +14,22 @@ import { CommonModule } from '@angular/common';
 export class CommunityDetailsComponent {
   @Input() showRules?: boolean;
   @Input() communityDetails$?: Observable<ForumCommunity>;
-  forumId?: number;
+  
   constructor(private forumService:ForumService, private route: ActivatedRoute) {}
+  
   ngOnInit(): void {
-    this.forumId = parseInt(this.route.snapshot.paramMap.get('id') || '');
+    this.communityDetails$ = this.route.paramMap.pipe(
+      distinctUntilChanged((prev: ParamMap, curr: ParamMap) => prev.get('id') === curr.get('id')), 
+      switchMap(params => {
+        const forumId = parseInt(params.get('id') || '0', 10);
+        return this.forumService.getForumCommunity(forumId).pipe(
+          catchError(error => {
+            console.error('Error fetching community details:', error);
+            return of(); 
+          })
+        );
+      })
+    );
   }
 
 }

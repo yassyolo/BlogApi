@@ -1,13 +1,12 @@
 <div class="search-wrapper">
-    <div class="search-container">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <span></span>
-      <input 
-        type="text" 
-        [(ngModel)]="query" 
-        (keydown.enter)="onSearch()" 
-        placeholder="Search.." 
-        class="search-input">
-    </div>
+  <div class="search-container">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span></span>
+    <input 
+      type="text" 
+      [(ngModel)]="query" 
+      (input)="onSearch()"  
+      placeholder="Search.." 
+      class="search-input">
   </div>
-  
+</div>

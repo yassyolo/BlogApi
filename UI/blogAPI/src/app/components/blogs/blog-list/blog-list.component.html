@@ -1,6 +1,6 @@
 <div class="blog-list-container">
-<div *ngIf="blogs$">  
-    <div *ngFor="let blog of blogs$" class="blog-item-wrapper">
+<div *ngIf="blogs$ | async as blogs">  
+    <div *ngFor="let blog of blogs" class="blog-item-wrapper">
       <div class="blog-item">
         <img [src]="blog.imageUri" alt="blog image" class="blog-image">
         <div class="blog-content">
@@ -17,7 +17,7 @@
     <ul class="pagination">
       <li class="page-item"><a class="page-link" href="#"><button (click)="changePage(currentPage || 1-1)" [disabled]="currentPage === 1"><i class="fa-solid fa-arrow-left"></i></button></a></li>
       <li class="page-item"><a class="page-link" href="#" style="padding: 0 5px;">{{currentPage}}</a></li>
-      <li class="page-item"><a class="page-link" href="#"><button (click)="changePage(currentPage || 1+1)" [disabled]="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button></a></li>
+      <li class="page-item"><a class="page-link" href="#"><button *ngIf="totalPages$ | async as totalPages" (click)="changePage(currentPage || 1+1)" [disabled]="currentPage === totalPages"><i class="fa-solid fa-arrow-right"></i></button></a></li>
     </ul>
   </nav>
 </div>

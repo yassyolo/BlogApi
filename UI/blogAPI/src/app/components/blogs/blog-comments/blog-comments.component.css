@@ -2,13 +2,13 @@
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-    background-color: #e0e0e0;
+    background-color: #efeded;
     width: 830px; 
     border: 1px solid #FF4561;
 }
 .line{
     display: inline-block;
-    width: 730px;
+    width: 740px;
     height: 0.5px;
     background-color: #FF4561;
     margin-left: 30px;

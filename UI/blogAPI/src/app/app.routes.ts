@@ -21,6 +21,7 @@ import { ForumCategoryFeedComponent } from './components/forum/forum-category-fe
 import { CommunityFeedComponent } from './components/forum/community-feed/community-feed.component';
 import { ForumPostDetailsComponent } from './components/forum/forum-post-details/forum-post-details.component';
 import { StreamFeedComponent } from './components/stream/stream-feed/stream-feed.component';
+import { BroadcasterComponent } from './components/stream/broadcaster/broadcaster.component';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'home' },  
@@ -41,7 +42,8 @@ export const routes: Routes = [
     {path: 'forum/category/:id', component: ForumCategoryFeedComponent},
     {path: 'forum/community/:id', component: CommunityFeedComponent},
     {path: 'forum/post/:id', component: ForumPostDetailsComponent},
-    {path: 'stream', component: StreamFeedComponent}
+    {path: 'stream', component: StreamFeedComponent},
+    {path: 'stream/broadcast', component: BroadcasterComponent},
 
 ];
 
